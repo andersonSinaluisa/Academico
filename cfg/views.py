@@ -91,5 +91,5 @@ class MenuEditar(PermissionRequiredMixin, UpdateView):
     model = Modulo
     template_name = 'menus/crear_menu.html'
     permission_required = "cfg.change_menu"
-    form_class = ModuloForm
+    form_class = MenuForm
     success_url = reverse_lazy('cfg:menus') 
