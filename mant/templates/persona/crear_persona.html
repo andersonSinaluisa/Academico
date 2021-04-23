@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{% block title_menu %}Menús{% endblock title_menu %}
-{% block title %}{% trans "Crear Menú" %}{% endblock title %}
+{% block title_menu %}Personas{% endblock title_menu %}
+{% block title %}{% trans "Crear Persona" %}{% endblock title %}
 
 {% block content %}
 <section id="multiple-column-form">
@@ -34,7 +34,7 @@
                                     <button class="btn btn-light-secondary  rounded-pill"
                                             type="reset">{% trans "Reset" %}
                                     </button>
-                                    <a class="btn btn-danger rounded-pill" href="{% url 'cfg:menus' %}">{% trans "Cancelar" %}</a>
+                                    <a class="btn btn-danger rounded-pill" href="{% url 'mant:personas' %}">{% trans "Cancelar" %}</a>
                                 </div>
                             </div>
                         </form>
@@ -46,10 +46,10 @@
 </section>
 
 {% endblock content %}
- {% block scripts %}
-     <script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
+{% block scripts %}
+<script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
 
- <script>
+<script>
  {% if form.non_field_errors  %}
     Swal.fire({
                 title: '',
@@ -61,6 +61,8 @@
             })
     
     {% endif %}
- </script>
- 
- {% endblock scripts %}
+
+
+</script>
+
+{% endblock scripts %}

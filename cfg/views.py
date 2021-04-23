@@ -11,7 +11,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import CreateView, ListView, UpdateView
 from cfg.models import Modulo, Menu
 from cfg.forms import ModuloForm, MenuForm, ModuloEditForm, MenuEditForm
-# Create your views here.
+
+
 
 def login(request):
     context = {}
@@ -19,27 +20,28 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = EmailBackend.authenticate(
-                            EmailBackend,
-                            request,
-                            username,
-                            password
-                        )
+            EmailBackend,
+            request,
+            username,
+            password
+        )
         if user is not None:
             do_login(request, user)
             return redirect(reverse_lazy('cfg:inicio'))
         else:
             context['msj'] = _('Usuario y/o contraseña incorrecta')
-    return render(request,'login.html',context)
+    return render(request, 'login.html', context)
+
 
 @login_required(login_url='/')
 def inicio(request):
-    return render(request,'inicio.html')
+    return render(request, 'inicio.html')
 
 
 class ModuloCrear(PermissionRequiredMixin, CreateView):
-    """Clase para crear un modulo donde permission_required"""
-    """Especifica que permiso debe tener el usuario para acceder"""
-    """a la pantalla """
+    """Clase para crear un modulo donde permission_required
+    Especifica que permiso debe tener el usuario para acceder
+    a la pantalla """
 
     model = Modulo
     template_name = 'modulos/crear_modulo.html'
@@ -49,28 +51,29 @@ class ModuloCrear(PermissionRequiredMixin, CreateView):
     login_url = "/"
 
 
-class ModuloListar(PermissionRequiredMixin,ListView):
-    """Clase para listar los modulos donde permission_required"""
-    """Especifica que permiso debe tener el usuario para acceder"""
-    """a la pantalla """
-    
+class ModuloListar(PermissionRequiredMixin, ListView):
+    """Clase para listar los modulos donde permission_required
+    Especifica que permiso debe tener el usuario para acceder
+    a la pantalla """
+
     model = Modulo
     template_name = 'modulos/lista_modulo.html'
     permission_required = "cfg.view_modulo"
     context_object_name = 'obj'
     login_url = "/"
 
-class ModuloEditar(PermissionRequiredMixin,UpdateView):
-    """Clase para editar un modulo donde permission_required"""
-    """Especifica que permiso debe tener el usuario para acceder"""
-    """a la pantalla """
+
+class ModuloEditar(PermissionRequiredMixin, UpdateView):
+    """Clase para editar un modulo donde permission_required
+    Especifica que permiso debe tener el usuario para acceder
+    a la pantalla """
 
     model = Modulo
     template_name = 'modulos/crear_modulo.html'
     permission_required = "cfg.change_modulo"
     form_class = ModuloEditForm
-    success_url = reverse_lazy('cfg:modulos') 
     login_url = "/"
+    success_url = reverse_lazy('cfg:modulos')
 
 
 class MenuListar(PermissionRequiredMixin, ListView):
@@ -80,18 +83,20 @@ class MenuListar(PermissionRequiredMixin, ListView):
     context_object_name = 'obj'
     login_url = "/"
 
-class MenuCrear(PermissionRequiredMixin,CreateView):
+
+class MenuCrear(PermissionRequiredMixin, CreateView):
     model = Menu
     form_class = MenuForm
     template_name = 'menus/crear_menu.html'
-    permission_required="cfg.add_menu"
+    permission_required = "cfg.add_menu"
     success_url = reverse_lazy("cfg:menus")
     login_url = "/"
 
+
 class MenuEditar(PermissionRequiredMixin, UpdateView):
-    """Clase para editar un menu donde permission_required"""
-    """Especifica que permiso debe tener el usuario para acceder"""
-    """a la pantalla """
+    """Clase para editar un menu donde permission_required
+    Especifica que permiso debe tener el usuario para acceder
+    a la pantalla """
 
     model = Modulo
     template_name = 'menus/crear_menu.html'

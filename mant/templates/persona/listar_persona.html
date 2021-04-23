@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}Personas{% endblock title_menu %}
+{% block styles %}
+<style>
+        .fontawesome-icons {
+            text-align: center;
+        }
+
+        article dl {
+            background-color: rgba(0, 0, 0, .02);
+            padding: 20px;
+        }
+
+        .fontawesome-icons .the-icon svg {
+            font-size: 24px;
+        }
+
+
+
+</style>
+<link href="{% static 'dist/assets/vendors/simple-datatables/style.css' %}" rel="stylesheet">
+
+{% endblock styles %}
+{% block title %}{% trans "Lista de Personas" %}{% endblock title %}
+
+{% block content %}
+
+<section class="section">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped" id="table1">
+                <thead>
+                <tr>
+                    <th>{% trans "N° Cédula" %}</th>
+                    <th>{% trans "Nombres" %}</th>
+                    <th>{% trans "Apellidos" %}</th>
+                    <th>{% trans "Genero" %}</th>
+                    <th>{% trans "Opciones" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in obj %}
+                <tr>
+                    <td>{{i.identificacion}}</td>
+                    <td>{{i.nombres}}</td>
+                    <td>{{i.apellidos}}</td>
+                    <td>{{i.id_cfg_genero}}</td>
+                    <td>
+                        <a href="{% url 'mant:editar_persona' i.id_persona %}"><i class="bi bi-pencil-square"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'dist/assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
+<script>
+// Simple Datatable
+       let table1 = document.querySelector('#table1');
+       let dataTable = new simpleDatatables.DataTable(table1);
+
+</script>
+
+{% endblock scripts %}

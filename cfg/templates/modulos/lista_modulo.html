@@ -16,34 +16,28 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-    </style>
-    <link rel="stylesheet" href="{% static 'dist/assets/vendors/simple-datatables/style.css' %}">
+ </style>
+<link href="{% static 'dist/assets/vendors/simple-datatables/style.css' %}" rel="stylesheet">
 
 {% endblock styles %}
 
 
-{% block brearcrumb %}
-        <li class="breadcrumb-item active" aria-current="page">{% trans "Modulos" %}</li>                                        
-{% endblock brearcrumb %}
-{% block title %}{% trans "Modulos" %}{% endblock title %}
+{% block title %}{% trans "Modulos Disponibles en el sistema" %}{% endblock title %}
 
 {% block content %}
 
 <section class="section">
     <div class="card">
-        <div class="card-header">
-            {% trans "Modulos Disponibles del sistema" %}
-        </div>
         <div class="card-body">
             <table class="table table-striped" id="table1">
                 <thead>
-                    <tr>
-                        <th>{% trans "codigo" %}</th>
-                        <th>{% trans "Nombre" %}</th>
-                        <th>{% trans "Icono" %}</th>
-                        <th>{% trans "Estado" %}</th>
-                        <th>{% trans "Acción" %}</th>
-                    </tr>
+                <tr>
+                    <th>{% trans "codigo" %}</th>
+                    <th>{% trans "Nombre" %}</th>
+                    <th>{% trans "Icono" %}</th>
+                    <th>{% trans "Estado" %}</th>
+                    <th>{% trans "Acción" %}</th>
+                </tr>
                 </thead>
                 <tbody>
                     {% for i in obj %}
