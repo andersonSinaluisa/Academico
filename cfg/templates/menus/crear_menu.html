@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}Crear Menú{% endblock title_menu %}
+{% block brearcrumb %}
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Crear Menú" %}</li>                                        
+{% endblock brearcrumb %}
+{% block title %}{% trans "Crear Menú" %}{% endblock title %}
+
+{% block content %}
+<section id="multiple-column-form">
+                    <div class="row match-height">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <form class="form" method="POST">
+                                        {% csrf_token %}
+                                            <div class="row">
+                                                {% for i in form %}
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="{{i.id_for_label}}">{{i.label}}</label>
+                                                        {{i}}
+                                                    </div>
+                                                </div>
+                                                
+                                                {% endfor %}
+                                                
+                                                
+                                                <div class="col-12 d-flex justify-content-end">
+                                                    <button type="submit"
+                                                        class="btn btn-primary rounded-pill">{% trans "Guardar" %}</button>
+                                                    <button type="reset"
+                                                        class="btn btn-light-secondary  rounded-pill">{% trans "Reset" %}</button>
+                                                    <a href="{% url 'cfg:menus' %}" class="btn btn-danger rounded-pill">{% trans "Cancelar" %}</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+{% endblock content %}
+ {% block scripts %}
+     <script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
+
+ <script>
+ {% if form.non_field_errors  %}
+    Swal.fire({
+                title: '',
+                html: '{{ form.non_field_errors }}',
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+    
+    {% endif %}
+ </script>
+ 
+ {% endblock scripts %}

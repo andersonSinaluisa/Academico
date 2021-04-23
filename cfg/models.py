@@ -1,15 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import Permission
+from django.utils.translation import ugettext as _
 
 
 class Modulo(models.Model):
     """Modelo para generar modulos en el template"""
-
+    
     id_modulo = models.AutoField(primary_key=True)
     codigo = models.CharField(max_length=20, blank=False, null=False, unique=True)
     nombre = models.CharField(max_length=30, blank=False, null=False, unique=True)
     estado = models.BooleanField(default=True)
-
+    icono = models.CharField(max_length=25)
+    orden = models.IntegerField()
     class Meta:
         verbose_name = "Modulo",
         verbose_name_plural = "Modulos",
@@ -28,9 +30,9 @@ class Modulo(models.Model):
 class Menu(models.Model):
     id_menu = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=30, blank=False, null=False, unique=True)
-    estado = models.BooleanField(default=True)
+    estado = models.BooleanField(default=True,verbose_name=_('Activo'))
     permiso = models.ForeignKey(Permission,on_delete=models.CASCADE,null=True)
-    id_modulo = models.ForeignKey(Modulo,on_delete=models.CASCADE,null=False)
+    id_modulo = models.ForeignKey(Modulo,on_delete=models.CASCADE,null=False,verbose_name=_('Modulo'))
 
     class Meta:
         verbose_name = 'Menu',
