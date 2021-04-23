@@ -1,51 +1,48 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{% block title_menu %}Crear Modulo{% endblock title_menu %}
-{% block brearcrumb %}
-        <li class="breadcrumb-item active" aria-current="page">{% trans "Crear Modulo" %}</li>                                        
-{% endblock brearcrumb %}
+{% block title_menu %}Modulos{% endblock title_menu %}
 {% block title %}{% trans "Crear Modulo" %}{% endblock title %}
 
 {% block content %}
 <section id="multiple-column-form">
-                    <div class="row match-height">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">{% trans "Usar Iconos de Bootstrap 5" %}</h4><a href="https://icons.getbootstrap.com/" target="_blank">{% trans "Encuentralos aquí" %}</a>
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <form class="form" method="POST">
-                                        {% csrf_token %}
-                                            <div class="row">
-                                                {% for i in form %}
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group">
-                                                        <label for="{{i.id_for_label}}">{{i.label}}</label>
-                                                        {{i}}
-                                                    </div>
-                                                </div>
-                                                
-                                                {% endfor %}
-                                                
-                                                
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit"
-                                                        class="btn btn-primary rounded-pill">{% trans "Guardar" %}</button>
-                                                    <button type="reset"
-                                                        class="btn btn-light-secondary  rounded-pill">{% trans "Reset" %}</button>
-                                                    <a href="{% url 'cfg:modulos' %}" class="btn btn-danger rounded-pill">{% trans "Cancelar" %}</a>
-                                                </div>
-                                            </div>
-                                        </form>
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">{% trans "Usar Iconos de Bootstrap 5" %}</h4><a
+                        href="https://icons.getbootstrap.com/" target="_blank">{% trans "Encuentralos aquí" %}</a>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                {% for i in form %}
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="{{i.id_for_label}}">{{i.label}}</label>
+                                        {{i}}
                                     </div>
                                 </div>
+                                {% endfor %}
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button class="btn btn-primary rounded-pill"
+                                            type="submit">{% trans "Guardar" %}
+                                    </button>
+                                    <button class="btn btn-light-secondary  rounded-pill"
+                                            type="reset">{% trans "Reset" %}
+                                    </button>
+                                    <a class="btn btn-danger rounded-pill" href="{% url 'cfg:modulos' %}">{% trans "Cancelar" %}</a>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
  {% block scripts %}

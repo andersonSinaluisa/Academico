@@ -13,7 +13,6 @@ from cfg.models import Modulo, Menu
 from cfg.forms import ModuloForm, MenuForm, ModuloEditForm, MenuEditForm
 
 
-# Create your views here.
 
 def login(request):
     context = {}
@@ -40,9 +39,9 @@ def inicio(request):
 
 
 class ModuloCrear(PermissionRequiredMixin, CreateView):
-    """Clase para crear un modulo donde permission_required"""
-    """Especifica que permiso debe tener el usuario para acceder"""
-    """a la pantalla """
+    """Clase para crear un modulo donde permission_required
+    Especifica que permiso debe tener el usuario para acceder
+    a la pantalla """
 
     model = Modulo
     template_name = 'modulos/crear_modulo.html'
@@ -52,9 +51,9 @@ class ModuloCrear(PermissionRequiredMixin, CreateView):
 
 
 class ModuloListar(PermissionRequiredMixin, ListView):
-    """Clase para listar los modulos donde permission_required"""
-    """Especifica que permiso debe tener el usuario para acceder"""
-    """a la pantalla """
+    """Clase para listar los modulos donde permission_required
+    Especifica que permiso debe tener el usuario para acceder
+    a la pantalla """
 
     model = Modulo
     template_name = 'modulos/lista_modulo.html'
@@ -63,9 +62,9 @@ class ModuloListar(PermissionRequiredMixin, ListView):
 
 
 class ModuloEditar(PermissionRequiredMixin, UpdateView):
-    """Clase para editar un modulo donde permission_required"""
-    """Especifica que permiso debe tener el usuario para acceder"""
-    """a la pantalla """
+    """Clase para editar un modulo donde permission_required
+    Especifica que permiso debe tener el usuario para acceder
+    a la pantalla """
 
     model = Modulo
     template_name = 'modulos/crear_modulo.html'
@@ -90,9 +89,9 @@ class MenuCrear(PermissionRequiredMixin, CreateView):
 
 
 class MenuEditar(PermissionRequiredMixin, UpdateView):
-    """Clase para editar un menu donde permission_required"""
-    """Especifica que permiso debe tener el usuario para acceder"""
-    """a la pantalla """
+    """Clase para editar un menu donde permission_required
+    Especifica que permiso debe tener el usuario para acceder
+    a la pantalla """
 
     model = Modulo
     template_name = 'menus/crear_menu.html'
