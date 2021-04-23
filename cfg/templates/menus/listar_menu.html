@@ -50,7 +50,13 @@
                         <td>{{i.nombre}}</td>
                         <td>{{i.permiso}}</td>
                         <td>{{i.id_modulo}}</td>
-                        <td>{% if i.estado %}<span class="badge bg-success">{% trans "Activo" %}</span>{% else %}<span class="badge bg-danger">{% trans "Inactivo" %}</span>{% endif %}</td>
+                        <td>
+                            {% if i.estado %}
+                                <span class="badge bg-success">{% trans "Activo" %}</span>
+                            {% else %}
+                                <span class="badge bg-danger">{% trans "Inactivo" %}</span>
+                            {% endif %}
+                        </td>
                         <td>
                             <a href="{% url 'cfg:editar_menu' i.id_menu %}"><i class="bi bi-pencil-square"></i></a>
                         </td>

@@ -46,6 +46,7 @@ class ModuloCrear(PermissionRequiredMixin, CreateView):
     permission_required = "cfg.add_modulo"
     form_class = ModuloForm
     success_url = reverse_lazy('cfg:modulos')
+    login_url = "/"
 
 
 class ModuloListar(PermissionRequiredMixin,ListView):
@@ -57,6 +58,7 @@ class ModuloListar(PermissionRequiredMixin,ListView):
     template_name = 'modulos/lista_modulo.html'
     permission_required = "cfg.view_modulo"
     context_object_name = 'obj'
+    login_url = "/"
 
 class ModuloEditar(PermissionRequiredMixin,UpdateView):
     """Clase para editar un modulo donde permission_required"""
@@ -68,6 +70,7 @@ class ModuloEditar(PermissionRequiredMixin,UpdateView):
     permission_required = "cfg.change_modulo"
     form_class = ModuloEditForm
     success_url = reverse_lazy('cfg:modulos') 
+    login_url = "/"
 
 
 class MenuListar(PermissionRequiredMixin, ListView):
@@ -75,6 +78,7 @@ class MenuListar(PermissionRequiredMixin, ListView):
     template_name = 'menus/listar_menu.html'
     permission_required = "cfg.view_menu"
     context_object_name = 'obj'
+    login_url = "/"
 
 class MenuCrear(PermissionRequiredMixin,CreateView):
     model = Menu
@@ -82,6 +86,7 @@ class MenuCrear(PermissionRequiredMixin,CreateView):
     template_name = 'menus/crear_menu.html'
     permission_required="cfg.add_menu"
     success_url = reverse_lazy("cfg:menus")
+    login_url = "/"
 
 class MenuEditar(PermissionRequiredMixin, UpdateView):
     """Clase para editar un menu donde permission_required"""
@@ -92,4 +97,5 @@ class MenuEditar(PermissionRequiredMixin, UpdateView):
     template_name = 'menus/crear_menu.html'
     permission_required = "cfg.change_menu"
     form_class = MenuEditForm
-    success_url = reverse_lazy('cfg:menus') 
+    success_url = reverse_lazy('cfg:menus')
+    login_url = "/"
