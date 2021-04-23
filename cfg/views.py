@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import CreateView, ListView, UpdateView
 from cfg.models import Modulo, Menu
-from cfg.forms import ModuloForm, MenuForm
+from cfg.forms import ModuloForm, MenuForm, ModuloEditForm, MenuEditForm
 # Create your views here.
 
 def login(request):
@@ -66,7 +66,7 @@ class ModuloEditar(PermissionRequiredMixin,UpdateView):
     model = Modulo
     template_name = 'modulos/crear_modulo.html'
     permission_required = "cfg.change_modulo"
-    form_class = ModuloForm
+    form_class = ModuloEditForm
     success_url = reverse_lazy('cfg:modulos') 
 
 
@@ -91,5 +91,5 @@ class MenuEditar(PermissionRequiredMixin, UpdateView):
     model = Modulo
     template_name = 'menus/crear_menu.html'
     permission_required = "cfg.change_menu"
-    form_class = MenuForm
+    form_class = MenuEditForm
     success_url = reverse_lazy('cfg:menus') 

@@ -44,6 +44,31 @@ class ModuloForm(forms.ModelForm):
                 'class': 'form-control'
             })
 
+class ModuloEditForm(forms.ModelForm):
+    """formulario para crear modulo"""
+    class Meta:
+        model = Modulo
+        fields = [
+            'codigo',
+            'nombre',
+            'icono',
+            'orden'
+        ]
+    
+    
+
+    def __init__(self, *args, **kwargs):
+        """inicializa los widgets para poner class form-control"""
+        """en los input"""
+
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+
 class MenuForm(forms.ModelForm):
     class Meta:
         model = Menu
@@ -56,6 +81,29 @@ class MenuForm(forms.ModelForm):
             raise ValidationError( _('Ya existe un menú con el nombre %(value)s '),
                                 params={'value': nombre})
         return super().clean()
+
+    def __init__(self, *args, **kwargs):
+        """inicializa los widgets para poner class form-control"""
+        """en los input"""
+
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            if field != 'estado':
+                self.fields[field].widget.attrs.update({
+                    'class': 'form-control'
+                })
+        self.fields['estado'].widget.attrs.update({
+                'class': 'form-check-input'
+            })
+
+
+
+class MenuEditForm(forms.ModelForm):
+    class Meta:
+        model = Menu
+        fields = "__all__"
+
 
     def __init__(self, *args, **kwargs):
         """inicializa los widgets para poner class form-control"""
