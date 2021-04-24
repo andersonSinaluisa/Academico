@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}General{% endblock title_menu %}
+{% block styles %}
+ <style>
+        .fontawesome-icons {
+            text-align: center;
+        }
+
+        article dl {
+            background-color: rgba(0, 0, 0, .02);
+            padding: 20px;
+        }
+
+        .fontawesome-icons .the-icon svg {
+            font-size: 24px;
+        }
+
+ </style>
+<link href="{% static 'dist/assets/vendors/simple-datatables/style.css' %}" rel="stylesheet">
+
+{% endblock styles %}
+
+
+{% block title %}{% trans "Campos Generales Registrados" %}{% endblock title %}
+
+{% block content %}
+
+<section class="section">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped" id="table1">
+                <thead>
+                <tr>
+                    <th>{% trans "Tipo" %}</th>
+                    <th>{% trans "Codigo" %}</th>
+                    <th>{% trans "Nombre" %}</th>
+                    <th>{% trans "Acción" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for i in obj %}
+                    <tr>
+                        <td>{{i.tipo}}</td>
+                        <td>{{i.codigo}}</td>
+                        <td>{{i.nombre}}</td>
+                        <td>
+                            <a href="{% url 'cfg:editar_general' i.idgenr_general %}"><i class="bi bi-pencil-square"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+{% endblock content %}
+ {% block scripts %}
+<script src="{% static 'dist/assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
+ <script>
+ // Simple Datatable
+        let table1 = document.querySelector('#table1');
+        let dataTable = new simpleDatatables.DataTable(table1);
+ 
+ </script>
+ 
+ {% endblock scripts %}

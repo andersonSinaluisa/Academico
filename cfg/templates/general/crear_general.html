@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}General{% endblock title_menu %}
+{% block title %}{% trans "Crear Campo General" %}{% endblock title %}
+
+{% block content %}
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form" method="POST" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                                {% for i in form %}
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="{{i.id_for_label}}">{{i.label}}</label>
+                                        {{i}}
+                                    </div>
+                                </div>
+
+                                {% endfor %}
+
+
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button class="btn btn-primary rounded-pill"
+                                            type="submit">{% trans "Guardar" %}
+                                    </button>
+                                    <button class="btn btn-light-secondary  rounded-pill"
+                                            type="reset">{% trans "Reset" %}
+                                    </button>
+                                    <a class="btn btn-danger rounded-pill" href="{% url 'cfg:general' %}">{% trans "Cancelar" %}</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+ {% block scripts %}
+     <script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
+
+ <script>
+ {% if form.non_field_errors  %}
+    Swal.fire({
+                title: '',
+                html: '{{ form.non_field_errors }}',
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+    
+    {% endif %}
+     {% if form.errors  %}
+    Swal.fire({
+                title: '',
+                html: '{{ form.errors }}',
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+    
+    {% endif %}
+    {% if messages %}
+    Swal.fire({
+                title: '',
+                html: '{% for i in messages %}{{i}}{% endfor %}',
+                icon: "success",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            }).then(()=>{
+                window.location.href = '{{url}}'
+            })
+    
+    {% endif %}
+ </script>
+ 
+ {% endblock scripts %}

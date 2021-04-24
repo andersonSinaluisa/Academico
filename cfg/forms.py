@@ -1,5 +1,5 @@
 from django import forms
-from cfg.models import Modulo, Menu
+from cfg.models import *
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group, Permission
@@ -176,3 +176,39 @@ class RolesPermisosForm(forms.ModelForm):
 
 
 
+class GeneralForm(forms.ModelForm):
+    """formulario para crear un campo en la tabla general"""
+
+    class Meta:
+        model = GenrGeneral
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        """inicializa los widgets para poner class form-control
+        en los input"""
+
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+
+class GeneralEditForm(forms.ModelForm):
+    """formulario para editar un campo en la tabla general"""
+
+    class Meta:
+        model = GenrGeneral
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        """inicializa los widgets para poner class form-control
+        en los input"""
+
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })

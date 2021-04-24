@@ -20,8 +20,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(('adm.urls', 'adm'), namespace='adm')),
     path('', include(('cfg.urls', 'cfg'), namespace='cfg')),
     path('', include(('mant.urls', 'mant'), namespace='mant')),
+    path('', include(('matr.urls', 'matr'), namespace='matr')),
+    path('', include(('reg.urls', 'reg'), namespace='reg'))
 ]
 
 #handler404 = 'cfg.views.pag_404_not_found'
