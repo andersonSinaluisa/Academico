@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{% block title_menu %}Modulos{% endblock title_menu %}
+{% block title_menu %}Roles{% endblock title_menu %}
 {% block styles %}
  <style>
         .fontawesome-icons {
@@ -22,15 +22,14 @@
 {% endblock styles %}
 
 
-{% block title %}{% trans "Modulos Disponibles en el sistema" %}{% endblock title %}
+{% block title %}{% trans "Roles Disponibles en el sistema" %}{% endblock title %}
 
 {% block content %}
  <div class="d-flex flex-row-reverse bd-highlight">
 
  <div class="bd-highlight">
-        {% if perms.cfg.add_modulo %}
-            <a href="{% url 'cfg:crear_modulo' %}" class="btn btn-success rounded-pill">{% trans "Crear Modulo" %}</a>
-
+        {% if perms.auth.add_group %}
+            <a href="{% url 'cfg:crear_rol' %}" class="btn btn-success rounded-pill">{% trans "Crear Rol" %}</a>
         {% endif %}
 </div>
 </div>
@@ -40,23 +39,18 @@
             <table class="table table-striped" id="table1">
                 <thead>
                 <tr>
-                    <th>{% trans "codigo" %}</th>
                     <th>{% trans "Nombre" %}</th>
-                    <th>{% trans "Icono" %}</th>
-                    <th>{% trans "Estado" %}</th>
-                    <th>{% trans "Acción" %}</th>
+                    <th>{% trans "Permisos" %}</th>
                 </tr>
                 </thead>
                 <tbody>
                     {% for i in obj %}
                     <tr>
-                        <td>{{i.codigo}}</td>
-                        <td>{{i.nombre}}</td>
-                        <td><i class="{{i.icono}}"></i></td>
-                        <td>{% if i.estado %}<span class="badge bg-success">{% trans "Activo" %}</span>{% else %}<span class="badge bg-danger">{% trans "Inactivo" %}</span>{% endif %}</td>
-                        <td>
-                            <a href="{% url 'cfg:editar_modulo' i.id_modulo %}"><i class="bi bi-pencil-square"></i></a>
-                        </td>
+                        <td>{{i.name}}</td>
+                        <td>{% for a in i.permissions.all %}{{a.name}}<br>{% endfor %}</td>
+                        <td>{% if perms.auth.change_group %}
+                        <a href="{% url 'cfg:editar_rol' i.pk %}" class="btn btn-warning rounded-pill"><i class="bi bi-pencil-square"></i></a>
+                        {% endif %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

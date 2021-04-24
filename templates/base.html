@@ -113,7 +113,13 @@
                                     <div class="user-menu d-flex">
                                         <div class="user-name text-end me-3">
                                             <h6 class="mb-0 text-gray-600">{{user.username}}</h6>
-                                            <p class="mb-0 text-sm text-gray-600">Administrator</p>
+                                            <p class="mb-0 text-sm text-gray-600">
+                                            {% if user.is_superuser %}
+                                                {% trans "SuperUsuario" %}
+                                            {% else %}
+                                                {% for i in user.groups.all %}{{i.name}}{% endfor %}
+                                            {% endif %}
+                                            </p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">

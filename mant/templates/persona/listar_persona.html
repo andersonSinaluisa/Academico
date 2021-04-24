@@ -26,7 +26,15 @@
 {% block title %}{% trans "Lista de Personas" %}{% endblock title %}
 
 {% block content %}
+ <div class="d-flex flex-row-reverse bd-highlight">
 
+        <div class="bd-highlight">
+        {% if perms.mant.add_persona %}
+            <a href="{% url 'mant:crear_persona' %}" class="btn btn-success rounded-pill">{% trans "Crear Persona" %}</a>
+
+        {% endif %}
+        </div>
+    </div>
 <section class="section">
     <div class="card">
         <div class="card-body">
