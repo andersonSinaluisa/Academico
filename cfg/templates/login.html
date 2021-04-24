@@ -27,7 +27,7 @@
                     <h1 class="auth-title">Log in.</h1>
                     <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
 
-                    <form method="POST">
+                    <form method="POST" autocomplete="off">
                     {% csrf_token %}
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" class="form-control form-control-xl" name="username" placeholder="Username">
