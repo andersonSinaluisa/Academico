@@ -4,10 +4,21 @@ from mant.models import Persona
 
 class PersonaForm(forms.ModelForm):
     """Formulario para crear persona"""
+
     class Meta:
         model = Persona
-        fields ="__all__"
-        
+        fields = "__all__"
+        exclude = {
+            "id_persona",
+            "estado",
+            "fecha_ingreso",
+            "usuario_ing",
+            "terminal_ing",
+            "is_estudiante",
+            "is_empleado",
+            "is_representante"
+        }
+
     def __init__(self, *args, **kwargs):
         """inicializa los widgets para poner class form-control
         en los input"""
@@ -19,11 +30,23 @@ class PersonaForm(forms.ModelForm):
                 'class': 'form-control'
             })
 
+
 class PersonaEditForm(forms.ModelForm):
     """Formulario para editar persona"""
+
     class Meta:
         model = Persona
-        fields =  "__all__"
+        fields = "__all__"
+        exclude = {
+            "id_persona",
+            "estado",
+            "fecha_ingreso",
+            "usuario_ing",
+            "terminal_ing",
+            "is_estudiante",
+            "is_empleado",
+            "is_representante"
+        }
 
     def __init__(self, *args, **kwargs):
         """inicializa los widgets para poner class form-control
