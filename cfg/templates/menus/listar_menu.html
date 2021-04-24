@@ -23,10 +23,21 @@
 {% endblock styles %}
 
 
-{% block title %}{% trans "Menús Disponibles en el sistema" %}{% endblock title %}
+{% block title %}
+    {% trans "Menús Disponibles en el sistema" %}
+   
+{% endblock title %}
 
 {% block content %}
+ <div class="d-flex flex-row-reverse bd-highlight">
 
+        <div class="bd-highlight">
+        {% if perms.cfg.add_menu %}
+            <a href="{% url 'cfg:crear_menu' %}" class="btn btn-success rounded-pill">{% trans "Crear Menú" %}</a>
+
+        {% endif %}
+        </div>
+    </div>
 <section class="section">
     <div class="card">
         <div class="card-body">

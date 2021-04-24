@@ -16,7 +16,7 @@ class Modulo(models.Model):
     orden = models.IntegerField()
 
     class Meta:
-        verbose_name = "Modulo",
+        verbose_name = "Modulo"
         verbose_name_plural = "Modulos"
         ordering = ["codigo"]
 
@@ -41,7 +41,7 @@ class Menu(models.Model):
     id_modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE, null=False, blank=False, verbose_name=_('Modulo'))
 
     class Meta:
-        verbose_name = 'Menu',
+        verbose_name = 'Menu'
         verbose_name_plural = 'Menus'
     
 class GenrGeneral(models.Model):
@@ -53,8 +53,8 @@ class GenrGeneral(models.Model):
     nombre = models.CharField('Nombre', max_length=50, blank=False, null=False)
 
     class Meta:
-        verbose_name = 'Lista',
-        verbose_name_plural = 'Listas',
+        verbose_name = 'Lista_General'
+        verbose_name_plural = 'Listas_General'
 
     def __str__(self):
         """Función que devuelve el nombre de un objecto
@@ -78,8 +78,8 @@ class GenrHistorial(models.Model):
     id_menu = models.ForeignKey(Menu, on_delete=models.CASCADE, blank=False, null=False,related_name="fk_genrhistorial_confmenu", db_column='id_menu')
 
     class Meta:
-        verbose_name = 'Historial',
-        verbose_name_plural = 'Historiales',
+        verbose_name = 'Historial'
+        verbose_name_plural = 'Historiales'
 
 
 class MensajePantalla(models.Model):
@@ -90,5 +90,5 @@ class MensajePantalla(models.Model):
     valor = models.CharField(max_length=255)
 
     class Meta:
-        verbose_name = 'MensajePantalla'
-        verbose_name_plural = 'MensajePantallas'
+        verbose_name = 'Mensaje Pantalla'
+        verbose_name_plural = 'Mensajes Pantallas'

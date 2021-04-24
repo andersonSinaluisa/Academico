@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.urls import reverse_lazy
 from django.views.generic import View
 from django.contrib.auth.models import User
@@ -10,10 +10,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import CreateView, ListView, UpdateView
 from cfg.models import Modulo, Menu
-from cfg.forms import ModuloForm, MenuForm, ModuloEditForm, MenuEditForm
+from cfg.forms import ModuloForm, MenuForm, ModuloEditForm,\
+     MenuEditForm, RolesPermisosForm, GrupoPermisoEditForm
 from django.contrib import messages
-
-
+from django.contrib.auth.models import Permission, Group
+from django.views.defaults import page_not_found
+ 
+def pag_404_not_found(request, exception, template_name="error/404.html"):
+    response = render_to_response("../templates/page_404.html")
+    response.status_code=404
+    return response
 
 def login(request):
     context = {}
@@ -51,6 +57,22 @@ class ModuloCrear(PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy('cfg:modulos')
     login_url = "/"
 
+    def get_context_data(self, **kwargs):
+        context = {}
+        context = super(ModuloCrear, self).get_context_data(**kwargs)
+        context['url'] = self.success_url
+        context['accion'] = 'Crear'
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Modulo guardado correctamente')
+            return render(request,self.template_name,self.get_context_data(form=form))
+        else:
+            return render(request,self.template_name,self.get_context_data(form=form))
 
 class ModuloListar(PermissionRequiredMixin, ListView):
     """Clase para listar los modulos donde permission_required
@@ -75,7 +97,23 @@ class ModuloEditar(PermissionRequiredMixin, UpdateView):
     form_class = ModuloEditForm
     login_url = "/"
     success_url = reverse_lazy('cfg:modulos')
-
+    def get_context_data(self, **kwargs):
+        context = {}
+        context = super(ModuloEditar, self).get_context_data(**kwargs)
+        context['url'] = self.success_url
+        context['accion'] = 'Editar'
+        return context
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        obj = self.model.objects.get(id_modulo=kwargs['pk'])
+        print(obj)
+        form = self.form_class(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Modulo guardado correctamente')
+            return render(request,self.template_name,self.get_context_data(form=form))
+        else:
+            return render(request,self.template_name,self.get_context_data(form=form))
 
 class MenuListar(PermissionRequiredMixin, ListView):
     model = Menu
@@ -97,6 +135,7 @@ class MenuCrear(PermissionRequiredMixin, CreateView):
         context = {}
         context = super(MenuCrear, self).get_context_data(**kwargs)
         context['url'] = self.success_url
+        context['accion'] = 'Crear'
         return context
 
 
@@ -105,7 +144,7 @@ class MenuCrear(PermissionRequiredMixin, CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Menú creador correctamente')
+            messages.success(request, 'Menú creado correctamente')
             return render(request,self.template_name,self.get_context_data(form=form))
         else:
             return render(request,self.template_name,self.get_context_data(form=form))
@@ -126,6 +165,7 @@ class MenuEditar(PermissionRequiredMixin, UpdateView):
         context = {}
         context = super(MenuEditar, self).get_context_data(**kwargs)
         context['url'] = self.success_url
+        context['accion'] = 'Editar'
         return context
     
     def post(self, request, *args, **kwargs):
@@ -139,3 +179,92 @@ class MenuEditar(PermissionRequiredMixin, UpdateView):
             return render(request,self.template_name,self.get_context_data(form=form))
         else:
             return render(request,self.template_name,self.get_context_data(form=form))
+
+class PermisosListar(ListView):
+    model = Group
+    template_name ="roles/listar_rol.html"
+    permission_required = "auth.view_group"
+    context_object_name = 'obj'
+    login_url = "/"
+
+class PermisosCrear(CreateView):
+    model = Group
+    template_name = "roles/crear_rol.html"
+    form_class = RolesPermisosForm
+    success_url = reverse_lazy('cfg:roles')
+    permission_required = "auth.add_group"
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context = super(PermisosCrear, self).get_context_data(**kwargs)
+        context['url'] = self.success_url
+        context['accion'] = 'Crear'
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            c = form.save()
+            for i in form.cleaned_data:
+                valor = form.cleaned_data[i]
+                permiso = Permission.objects.filter(codename=i).first()
+                if permiso and valor:
+                    c.permissions.add(permiso.id)
+            messages.success(request,_('Nuevo Rol creado correctamente'))
+            return render(request, self.template_name, self.get_context_data(form=form))
+        else:
+            return render(request, self.template_name, self.get_context_data(form=form))
+
+
+
+class PermisosEditar(UpdateView):
+    model = Group
+    template_name = "roles/crear_rol.html"
+    form_class = GrupoPermisoEditForm
+    success_url = reverse_lazy('cfg:roles')
+    permission_required = "auth.change_group"
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context = super(PermisosEditar, self).get_context_data(**kwargs)
+        context['url'] = self.success_url
+        context['accion'] = 'Editar'
+        return context
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        self.object = self.get_object
+        obj = self.model.objects.get(pk=pk)
+        form = self.form_class(instance=obj)
+        permisos = obj.permissions.all()
+        context = {}
+        for i in form:
+            if i.name != 'name':
+                a = permisos.filter(codename=i.name) 
+                if a:
+                    valor = i.field.widget.check_test(i.value())
+                    if not valor:
+                        context[i.name] = True
+            else:
+                context[i.name] = i.value()
+        form = self.form_class(data=context,instance=obj)
+        return render(request, self.template_name, self.get_context_data(form=form))
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        obj = self.model.objects.get(pk=kwargs['pk'])
+        form = self.form_class(request.POST,instance=obj)
+        if form.is_valid():
+            c = form.save()
+            for i in form.cleaned_data:
+                valor = form.cleaned_data[i]
+                permiso = Permission.objects.filter(codename=i).first()
+                if permiso and valor:
+                    c.permissions.add(permiso.id)
+            messages.success(request,_('Rol guardado correctamente'))
+            return render(request, self.template_name, self.get_context_data(form=form))
+        else:
+            return render(request, self.template_name, self.get_context_data(form=form))
+
+
