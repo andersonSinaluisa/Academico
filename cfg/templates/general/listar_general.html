@@ -26,7 +26,15 @@
 {% block title %}{% trans "Campos Generales Registrados" %}{% endblock title %}
 
 {% block content %}
+<div class="d-flex flex-row-reverse bd-highlight">
 
+        <div class="bd-highlight">
+        {% if perms.cfg.add_general %}
+            <a href="{% url 'cfg:crear_general' %}" class="btn btn-success rounded-pill">{% trans "Crear Lista" %}</a>
+
+        {% endif %}
+        </div>
+    </div>
 <section class="section">
     <div class="card">
         <div class="card-body">
