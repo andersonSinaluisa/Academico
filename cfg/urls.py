@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from cfg.views import login, inicio, ModuloCrear, ModuloListar, ModuloEditar, \
-    MenuListar, MenuCrear, MenuEditar
+from cfg.views import *
 
 urlpatterns = [
     path('', login, name='login'),
@@ -11,5 +10,8 @@ urlpatterns = [
     path('editar-modulo/<int:pk>', ModuloEditar.as_view(), name='editar_modulo'),
     path('menus/', MenuListar.as_view(), name='menus'),
     path('crear-menu/', MenuCrear.as_view(), name='crear_menu'),
-    path('editar-menu/<int:pk>', MenuEditar.as_view(), name='editar_menu')
+    path('editar-menu/<int:pk>', MenuEditar.as_view(), name='editar_menu'),
+    path('general/', GeneralListar.as_view(), name='general'),
+    path('crear-general/', GeneralCrear.as_view(), name='crear_general'),
+    path('editar-general/<int:pk>', GeneralEditar.as_view(), name='editar_general'),
 ]
