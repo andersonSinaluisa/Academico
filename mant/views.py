@@ -1,7 +1,8 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from mant.forms import *
+from mant.forms import PersonaForm, PersonaEditForm
+from mant.models import Persona
 
 
 class PersonaListar(PermissionRequiredMixin, ListView):

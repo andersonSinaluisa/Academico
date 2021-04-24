@@ -1,22 +1,37 @@
 from django import forms
-from mant.models import *
+from mant.models import Persona
 
 
 class PersonaForm(forms.ModelForm):
     """Formulario para crear persona"""
     class Meta:
         model = Persona
-        fields = [
-            "nombres",
-            "apellidos",
-        ]
+        fields ="__all__"
+        
+    def __init__(self, *args, **kwargs):
+        """inicializa los widgets para poner class form-control
+        en los input"""
 
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
 
 class PersonaEditForm(forms.ModelForm):
     """Formulario para editar persona"""
     class Meta:
         model = Persona
-        fields = [
-            "nombres",
-            "apellidos",
-        ]
+        fields =  "__all__"
+
+    def __init__(self, *args, **kwargs):
+        """inicializa los widgets para poner class form-control
+        en los input"""
+
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })

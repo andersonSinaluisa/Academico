@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import CreateView, ListView, UpdateView
 from cfg.models import Modulo, Menu
 from cfg.forms import ModuloForm, MenuForm, ModuloEditForm, MenuEditForm
+from django.contrib import messages
 
 
 
@@ -92,15 +93,49 @@ class MenuCrear(PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy("cfg:menus")
     login_url = "/"
 
+    def get_context_data(self, **kwargs):
+        context = {}
+        context = super(MenuCrear, self).get_context_data(**kwargs)
+        context['url'] = self.success_url
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Menú creador correctamente')
+            return render(request,self.template_name,self.get_context_data(form=form))
+        else:
+            return render(request,self.template_name,self.get_context_data(form=form))
 
 class MenuEditar(PermissionRequiredMixin, UpdateView):
     """Clase para editar un menu donde permission_required
     Especifica que permiso debe tener el usuario para acceder
     a la pantalla """
 
-    model = Modulo
+    model = Menu
     template_name = 'menus/crear_menu.html'
     permission_required = "cfg.change_menu"
     form_class = MenuEditForm
     success_url = reverse_lazy('cfg:menus')
     login_url = "/"
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context = super(MenuEditar, self).get_context_data(**kwargs)
+        context['url'] = self.success_url
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        obj = self.model.objects.get(id_menu=kwargs['pk'])
+        print(obj)
+        form = self.form_class(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Menú guardado correctamente')
+            return render(request,self.template_name,self.get_context_data(form=form))
+        else:
+            return render(request,self.template_name,self.get_context_data(form=form))
