@@ -23,6 +23,8 @@ def pag_404_not_found(request, exception, template_name="error/404.html"):
 
 def login(request):
     context = {}
+    if request.user.is_authenticated:
+        return redirect('/inicio/')
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -229,6 +231,8 @@ class PermisosEditar(UpdateView):
         context['url'] = self.success_url
         context['accion'] = 'Editar'
         return context
+
+    
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
         self.object = self.get_object
@@ -255,18 +259,20 @@ class PermisosEditar(UpdateView):
         form = self.form_class(request.POST,instance=obj)
         if form.is_valid():
             c = form.save()
+            c.permissions.clear()
             for i in form.cleaned_data:
                 valor = form.cleaned_data[i]
+                print(valor)
                 permiso = Permission.objects.filter(codename=i).first()
                 if permiso and valor:
                     c.permissions.add(permiso.id)
+                
             messages.success(request,_('Rol guardado correctamente'))
             return render(request, self.template_name, self.get_context_data(form=form))
         else:
             return render(request, self.template_name, self.get_context_data(form=form))
 
 
-            return render(request, self.template_name, self.get_context_data(form=form))
 
 
 class GeneralCrear(PermissionRequiredMixin, CreateView):
@@ -276,7 +282,7 @@ class GeneralCrear(PermissionRequiredMixin, CreateView):
 
     model = GenrGeneral
     template_name = 'general/crear_general.html'
-    permission_required = "cfg.add_general"
+    permission_required = "cfg.add_genrgeneral"
     form_class = GeneralForm
     success_url = reverse_lazy('cfg:general')
     login_url = "/"
@@ -289,7 +295,7 @@ class GeneralListar(PermissionRequiredMixin, ListView):
 
     model = GenrGeneral
     template_name = 'general/listar_general.html'
-    permission_required = "cfg.view_general"
+    permission_required = "cfg.view_genrgeneral"
     context_object_name = 'obj'
     login_url = "/"
 
@@ -301,7 +307,7 @@ class GeneralEditar(PermissionRequiredMixin, UpdateView):
 
     model = GenrGeneral
     template_name = 'general/crear_general.html'
-    permission_required = "cfg.change_general"
+    permission_required = "cfg.change_genrgeneral"
     form_class = GeneralEditForm
     login_url = "/"
     success_url = reverse_lazy('cfg:general')
