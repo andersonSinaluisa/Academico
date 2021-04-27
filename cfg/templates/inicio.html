@@ -1,13 +1,46 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load i18n %}
-{% block title_menu %}Dashboard{% endblock title_menu %}
-{% block brearcrumb %}
-        <li class="breadcrumb-item active" aria-current="page">{% trans "Inicio" %}</li>                                        
-{% endblock brearcrumb %}
-{% block title %}{% trans "Inicio" %}{% endblock title %}
-
+{% block title_menu %}Inicio{% endblock title_menu %}
 {% block content %}
 
-<h4>{% trans "Hola Mundo" %}</h4>
+<div class="col-md-6 col-sm-12">
+        <div class="card">
+                <div class="card-content">
+                        <div class="card-body">
+                                <h4 class="card-title">Frase de la semana</h4>
+                                <p class="card-text">
+                                        Hoy, cuando miro hacia atrás, puedo afirmar que no cambiaría nada.
+                                        Perder todo fue fundamental para mí porque me enseñó que lo más
+                                        importante es ser sincero con uno mismo. Y fue lo que precisamente
+                                        me condujo hasta aquí. No vivo con temor. Soy libre. No tengo secretos
+                                        y sé que siempre estaré bien porque sin importar lo que pase, sé quién soy.
+                                </p>
+                                <small>Ellen DeGeneres: Discurso de graduación de Tulane University (2009)</small>
+                        </div>
+                        <img alt="Sistema Academico" class="card-img-bottom img-fluid"
+                             src="{% static 'dist/assets/images/samples/estudiar.jpg'%}" style="height: 20rem; object-fit: cover;">
+                </div>
+        </div>
+</div>
+
+<div class="col-md-6 col-sm-12">
+        <div class="card">
+                <div class="card-content">
+                        <div class="card-body">
+                                <h4 class="card-title">Frase de la semana</h4>
+                                <p class="card-text">
+                                        No dejes que nadie te diga que no puedes hacer algo. Ni siquiera yo.
+                                        ¿Lo entiendes? Si tienes un sueño, tienes que protegerlo.
+                                        Cuando no pueden hacer algo, a las personas les gusta decirles a los
+                                        demás que tampoco podrán hacerlo. Si quieres algo, ve y búscalo. Punto.
+                                </p>
+                                <small>Will Smith: Fragmento de la película En busca de la Felicidad (2006)</small>
+                        </div>
+                        <img alt="Sistema Academico" class="card-img-bottom img-fluid"
+                             src="{% static 'dist/assets/images/samples/felicidad.jpg'%}" style="height: 20rem; object-fit: cover;">
+                </div>
+        </div>
+</div>
 
 {% endblock content %}
