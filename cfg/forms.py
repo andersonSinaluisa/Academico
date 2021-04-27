@@ -118,7 +118,6 @@ class MenuEditForm(forms.ModelForm):
         })
 
 
-
 class GrupoPermisoEditForm(forms.ModelForm):
     class Meta:
         model = Group
@@ -127,23 +126,26 @@ class GrupoPermisoEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
-        permisos = Permission.objects.filter(~Q(content_type__model='logentry')| ~Q(content_type__model='contenttype') | ~Q(content_type__model='session'))
+        permisos = Permission.objects.filter(
+            ~Q(content_type__model='logentry') | ~Q(content_type__model='contenttype') | ~Q(content_type__model='session'))
         for permiso in permisos:
             val1 = permiso.name.find('Can change')
             val2 = permiso.name.find('Can view')
             val3 = permiso.name.find('Can add')
             val4 = permiso.name.find('Can delete')
-            if val1 !=-1:
-                name_permiso = permiso.name.replace('Can change','Editar')
-            elif val2 !=-1:
-                name_permiso = permiso.name.replace('Can view','Ver')
-            elif val3 !=-1:
-                name_permiso = permiso.name.replace('Can add','Agregar')
-            elif val4 !=-1:
-                name_permiso = permiso.name.replace('Can delete','Eliminar')
-            self.fields[permiso.codename] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label=name_permiso,required=False)
+            if val1 != -1:
+                name_permiso = permiso.name.replace('Can change', 'Editar')
+            elif val2 != -1:
+                name_permiso = permiso.name.replace('Can view', 'Ver')
+            elif val3 != -1:
+                name_permiso = permiso.name.replace('Can add', 'Agregar')
+            elif val4 != -1:
+                name_permiso = permiso.name.replace('Can delete', 'Eliminar')
+            self.fields[permiso.codename] = forms.BooleanField(
+                widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), label=name_permiso, required=False)
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
-        
+
+
 class RolesPermisosForm(forms.ModelForm):
     class Meta:
         model = Group
@@ -154,30 +156,32 @@ class RolesPermisosForm(forms.ModelForm):
         grupo = Group.objects.filter(name=name)
         if grupo:
             raise ValidationError(
-                                    _('Ya existe un rol con la descripción %(value)s.'),
-                                    params={'value': name},
-                                )
+                _('Ya existe un rol con la descripción %(value)s.'),
+                params={'value': name},
+            )
         return super().clean()
+
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
-        permisos = Permission.objects.filter(~Q(content_type__model='logentry')| ~Q(content_type__model='contenttype') | ~Q(content_type__model='session'))
+        permisos = Permission.objects.filter(
+            ~Q(content_type__model='logentry') | ~Q(content_type__model='contenttype') | ~Q(content_type__model='session'))
         for permiso in permisos:
             val1 = permiso.name.find('Can change')
             val2 = permiso.name.find('Can view')
             val3 = permiso.name.find('Can add')
             val4 = permiso.name.find('Can delete')
-            if val1 !=-1:
-                name_permiso = permiso.name.replace('Can change','Editar')
-            elif val2 !=-1:
-                name_permiso = permiso.name.replace('Can view','Ver')
-            elif val3 !=-1:
-                name_permiso = permiso.name.replace('Can add','Agregar')
-            elif val4 !=-1:
-                name_permiso = permiso.name.replace('Can delete','Eliminar')
-            self.fields[permiso.codename] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label=name_permiso,required=False)
+            if val1 != -1:
+                name_permiso = permiso.name.replace('Can change', 'Editar')
+            elif val2 != -1:
+                name_permiso = permiso.name.replace('Can view', 'Ver')
+            elif val3 != -1:
+                name_permiso = permiso.name.replace('Can add', 'Agregar')
+            elif val4 != -1:
+                name_permiso = permiso.name.replace('Can delete', 'Eliminar')
+            self.fields[permiso.codename] = forms.BooleanField(
+                widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), label=name_permiso, required=False)
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
-
 
 
 class GeneralForm(forms.ModelForm):

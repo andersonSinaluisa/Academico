@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'Academico.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'web_academico',
+        'NAME': 'academico_anderson',
         'USER': 'root',
-        'PASSWORD': 'Anderson10001',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': 3306,
     }

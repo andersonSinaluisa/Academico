@@ -27,4 +27,4 @@ urlpatterns = [
     path('', include(('reg.urls', 'reg'), namespace='reg'))
 ]
 
-#handler404 = 'cfg.views.pag_404_not_found'
+# handler404 = 'cfg.views.pag_404_not_found'

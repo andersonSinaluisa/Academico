@@ -43,7 +43,8 @@ class Menu(models.Model):
     class Meta:
         verbose_name = 'Menu'
         verbose_name_plural = 'Menus'
-    
+
+
 class GenrGeneral(models.Model):
     """Tabla general para guardar lista"""
 
@@ -75,7 +76,8 @@ class GenrHistorial(models.Model):
     usuario_mod = models.CharField(max_length=50, blank=False, null=False)
     terminal_mod = models.CharField(max_length=50, blank=False, null=False)
     fecha_mod = models.DateField(blank=False, null=False)
-    id_menu = models.ForeignKey(Menu, on_delete=models.CASCADE, blank=False, null=False,related_name="fk_genrhistorial_confmenu", db_column='id_menu')
+    id_menu = models.ForeignKey(Menu, on_delete=models.CASCADE, blank=False, null=False,
+                                related_name="fk_genrhistorial_confmenu", db_column='id_menu')
 
     class Meta:
         verbose_name = 'Historial'
