@@ -88,8 +88,12 @@ class MenuForm(forms.ModelForm):
                 self.fields[field].widget.attrs.update({
                     'class': 'form-control'
                 })
+        # añade atributos html al formulario
         self.fields['estado'].widget.attrs.update({
             'class': 'form-check-input'
+        })
+        self.fields['url_menu'].widget.attrs.update({
+            'placeholder': 'Ejemplo: /roles/'
         })
 
 
