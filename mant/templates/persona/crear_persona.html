@@ -50,7 +50,7 @@
 <script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
 
 <script>
- {% if form.non_field_errors  %}
+{% if form.non_field_errors  %}
     Swal.fire({
                 title: '',
                 html: '{{ form.non_field_errors }}',
@@ -61,7 +61,30 @@
             })
     
     {% endif %}
-
+     {% if form.errors  %}
+    Swal.fire({
+                title: '',
+                html: '{{ form.errors }}',
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+    
+    {% endif %}
+    {% if messages %}
+    Swal.fire({
+                title: '',
+                html: '{% for i in messages %}{{i}}{% endfor %}',
+                icon: "success",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            }).then(()=>{
+                window.location.href = '{{url}}'
+            })
+    
+    {% endif %}
 
 </script>
 

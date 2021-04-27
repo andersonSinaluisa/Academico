@@ -38,22 +38,22 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
-                        <li class="sidebar-item active ">
+                        <li class="sidebar-item">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
                         {% for i in modulos %}
-                        <li class="sidebar-item has-sub">
+                        <li class="sidebar-item has-sub  {% for a in i.menus %}{% if request.path in a.url_menu %}active{% endif %}{% endfor %}">
                             <a href="#" class='sidebar-link'>
                                 <i class="{{i.modulo.icono}}"></i>
                                 <span>{{i.modulo.nombre}}</span>
                             </a>
                             
-                            <ul class="submenu">
+                            <ul class="submenu {% for a in i.menus %}{% if request.path in a.url_menu %}active{% endif %}{% endfor %}">
                                 {% for a in i.menus %}
-                                <li class="submenu-item ">
+                                <li class="submenu-item {% if request.path in a.url_menu %}active{% endif %}">
                                     <a href="{{a.url_menu}}">{{a.nombre}}</a>
                                 </li>
                                 {% endfor %}

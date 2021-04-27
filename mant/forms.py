@@ -1,5 +1,7 @@
 from django import forms
-from mant.models import Persona
+from mant.models import Persona, GenrGeneral
+from django.contrib.auth.models import Group
+from django.db.models import Q
 
 
 class PersonaForm(forms.ModelForm):
@@ -16,7 +18,8 @@ class PersonaForm(forms.ModelForm):
             "terminal_ing",
             "is_estudiante",
             "is_empleado",
-            "is_representante"
+            "is_representante",
+            "id_usuario"
         }
 
     def __init__(self, *args, **kwargs):
@@ -25,11 +28,26 @@ class PersonaForm(forms.ModelForm):
 
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
+        self.fields['rol'] = forms.ChoiceField(choices=[(i.pk,i.name)for i in Group.objects.all()])
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
+        self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
 
+        self.fields['id_cfg_genero'].queryset = GenrGeneral.objects.filter(tipo='GEN')
+        self.fields['id_cfg_pais'].queryset = GenrGeneral.objects.filter(tipo='TPA')
+        self.fields['id_cfg_estado_civil'].queryset = GenrGeneral.objects.filter(tipo='EST')
+        self.fields['id_cfg_tipo_sangre'].queryset = GenrGeneral.objects.filter(tipo='TSA')
+        self.fields['id_cfg_etnia'].queryset = GenrGeneral.objects.filter(tipo='ETN')
+        self.fields['id_cfg_jornada'].queryset = GenrGeneral.objects.filter(tipo='JOR')
+        self.fields['id_cfg_indigena'].queryset = GenrGeneral.objects.filter(tipo='IDA')
+        self.fields['id_cfg_idioma_ancestral'].queryset = GenrGeneral.objects.filter(tipo='IDA')
+        self.fields['id_cfg_provincia'].queryset = GenrGeneral.objects.filter(tipo='593')
+        self.fields['id_cfg_ciudad'].queryset = GenrGeneral.objects.filter(tipo__lt=24)
+        self.fields['id_cfg_categoria_migratoria'].queryset = GenrGeneral.objects.filter(tipo='CMI')
+        self.fields['id_cfg_estado_civil'].queryset = GenrGeneral.objects.filter(tipo='EST')
+        self.fields['id_cfg_estado_laboralp'].queryset = GenrGeneral.objects.filter(tipo='ESTL')
 
 class PersonaEditForm(forms.ModelForm):
     """Formulario para editar persona"""
@@ -45,7 +63,8 @@ class PersonaEditForm(forms.ModelForm):
             "terminal_ing",
             "is_estudiante",
             "is_empleado",
-            "is_representante"
+            "is_representante",
+            "id_usuario"
         }
 
     def __init__(self, *args, **kwargs):
@@ -54,7 +73,23 @@ class PersonaEditForm(forms.ModelForm):
 
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
+        self.fields['rol'] = forms.ChoiceField(choices=[(i.pk,i.name)for i in Group.objects.all()])
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
+        self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
+
+        self.fields['id_cfg_genero'].queryset = GenrGeneral.objects.filter(tipo='GEN')
+        self.fields['id_cfg_pais'].queryset = GenrGeneral.objects.filter(tipo='TPA')
+        self.fields['id_cfg_estado_civil'].queryset = GenrGeneral.objects.filter(tipo='EST')
+        self.fields['id_cfg_tipo_sangre'].queryset = GenrGeneral.objects.filter(tipo='TSA')
+        self.fields['id_cfg_etnia'].queryset = GenrGeneral.objects.filter(tipo='ETN')
+        self.fields['id_cfg_jornada'].queryset = GenrGeneral.objects.filter(tipo='JOR')
+        self.fields['id_cfg_indigena'].queryset = GenrGeneral.objects.filter(tipo='IDA')
+        self.fields['id_cfg_idioma_ancestral'].queryset = GenrGeneral.objects.filter(tipo='IDA')
+        self.fields['id_cfg_provincia'].queryset = GenrGeneral.objects.filter(tipo='593')
+        self.fields['id_cfg_ciudad'].queryset = GenrGeneral.objects.filter(tipo__lt=24)
+        self.fields['id_cfg_categoria_migratoria'].queryset = GenrGeneral.objects.filter(tipo='CMI')
+        self.fields['id_cfg_estado_civil'].queryset = GenrGeneral.objects.filter(tipo='EST')
+        self.fields['id_cfg_estado_laboralp'].queryset = GenrGeneral.objects.filter(tipo='ESTL')

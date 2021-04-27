@@ -44,7 +44,9 @@
                     <th>{% trans "Nombre" %}</th>
                     <th>{% trans "Icono" %}</th>
                     <th>{% trans "Estado" %}</th>
+                    {% if perms.cfg.change_modulo %}
                     <th>{% trans "Acción" %}</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -54,9 +56,11 @@
                         <td>{{i.nombre}}</td>
                         <td><i class="{{i.icono}}"></i></td>
                         <td>{% if i.estado %}<span class="badge bg-success">{% trans "Activo" %}</span>{% else %}<span class="badge bg-danger">{% trans "Inactivo" %}</span>{% endif %}</td>
+                        {% if perms.cfg.change_modulo %}
                         <td>
                             <a href="{% url 'cfg:editar_modulo' i.id_modulo %}"><i class="bi bi-pencil-square"></i></a>
                         </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
