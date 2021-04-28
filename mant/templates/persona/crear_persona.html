@@ -5,87 +5,516 @@
 {% block title %}{{accion}} {% trans "Persona" %}{% endblock title %}
 
 {% block content %}
-<section id="multiple-column-form">
-    <div class="row match-height">
-        <div class="col-12">
-            <div class="card">
+
+<section class="section">
+
+    <div class="row">
+        <div class="col-md-12">
+            <form class="card" method="POST" enctype='multipart/form-data'>
                 <div class="card-header">
-                </div>
-                <div class="card-content">
-                    <div class="card-body">
-                        <form class="form" method="POST" autocomplete="off">
-                            {% csrf_token %}
-                            <div class="row">
-                                {% for i in form %}
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="{{i.id_for_label}}">{{i.label}}</label>
-                                        {{i}}
-                                    </div>
-                                </div>
-
-                                {% endfor %}
-
-
-                                <div class="col-12 d-flex justify-content-end">
-                                    <button class="btn btn-primary rounded-pill"
-                                            type="submit">{% trans "Guardar" %}
-                                    </button>
-                                    <button class="btn btn-light-secondary  rounded-pill"
-                                            type="reset">{% trans "Reset" %}
-                                    </button>
-                                    <a class="btn btn-danger rounded-pill" href="{% url 'mant:personas' %}">{% trans "Cancelar" %}</a>
-                                </div>
+                    <h5 class="card-title">{% trans "Asigne un rol y complete toda la información" %}</h5>
+                    <div class="col-md-6 col-6">
+                        <div class="form-group">
+                            <label for="{{form.rol.id_for_label}}">{{form.rol.label}}</label>
+                            {{form.rol}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3  col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <label
+                                    for="{{form.is_estudiante.id_for_label}}">{{form.is_estudiante.label}}</label>
+                                {{form.is_estudiante}}
                             </div>
-                        </form>
+                        </div>
+                        <div class="col-md-3  col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <label
+                                    for="{{form.is_empleado.id_for_label}}">{{form.is_empleado.label}}</label>
+                                {{form.is_empleado}}
+                            </div>
+                        </div>
+                        <div class="col-md-3  col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label
+                                    for="{{form.is_representante.id_for_label}}">{{form.is_representante.label}}</label>
+                                {{form.is_representante}}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="home-tab-0" data-bs-toggle="tab" href="#home_0" role="tab"
+                                aria-controls="home_0" aria-selected="true">{% trans "Datos de la persona" %}</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="home-tab-21" data-bs-toggle="tab" href="#home_21" role="tab"
+                                aria-controls="home_21" aria-selected="false">{% trans "Datos de salud" %}</a>
+                        </li>
+                        <li class="nav-item" role="presentation" id="item-familiares">
+                            <a class="nav-link" id="home-tab-41" data-bs-toggle="tab" href="#home_41" role="tab"
+                                aria-controls="home_41" aria-selected="false">{% trans "Datos Familiares" %}</a>
+                        </li>
+                        <li class="nav-item" role="presentation" id="item-rep">
+                            <a class="nav-link" id="home-tab-61" data-bs-toggle="tab" href="#home_61" role="tab"
+                                aria-controls="home_61" aria-selected="false">{% trans "Datos del Respresentante" %}</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home_0" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.nombres.id_for_label}}">{{form.nombres.label}}</label>
+                                        {{form.nombres}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.apellidos.id_for_label}}">{{form.apellidos.label}}</label>
+                                        {{form.apellidos}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.imagen.id_for_label}}">{{form.imagen.label}}</label>
+                                        {{form.imagen}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.identificacion.id_for_label}}">{{form.identificacion.label}}</label>
+                                        {{form.identificacion}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.fecha_de_nacimiento.id_for_label}}">{{form.fecha_de_nacimiento.label}}</label>
+                                        {{form.fecha_de_nacimiento}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.lugar_nacimiento.id_for_label}}">{{form.lugar_nacimiento.label}}</label>
+                                        {{form.lugar_nacimiento}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.direccion.id_for_label}}">{{form.direccion.label}}</label>
+                                        {{form.direccion}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.telefono.id_for_label}}">{{form.telefono.label}}</label>
+                                        {{form.telefono}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.celular.id_for_label}}">{{form.celular.label}}</label>
+                                        {{form.celular}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_genero.id_for_label}}">{{form.id_cfg_genero.label}}</label>
+                                        {{form.id_cfg_genero}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_pais.id_for_label}}">{{form.id_cfg_pais.label}}</label>
+                                        {{form.id_cfg_pais}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_provincia.id_for_label}}">{{form.id_cfg_provincia.label}}</label>
+                                        {{form.id_cfg_provincia}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_ciudad.id_for_label}}">{{form.id_cfg_ciudad.label}}</label>
+                                        {{form.id_cfg_ciudad}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_etnia.id_for_label}}">{{form.id_cfg_etnia.label}}</label>
+                                        {{form.id_cfg_etnia}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_jornada.id_for_label}}">{{form.id_cfg_jornada.label}}</label>
+                                        {{form.id_cfg_jornada}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_indigena.id_for_label}}">{{form.id_cfg_indigena.label}}</label>
+                                        {{form.id_cfg_indigena}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_idioma_ancestral.id_for_label}}">{{form.id_cfg_idioma_ancestral.label}}</label>
+                                        {{form.id_cfg_idioma_ancestral}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_categoria_migratoria.id_for_label}}">{{form.id_cfg_categoria_migratoria.label}}</label>
+                                        {{form.id_cfg_categoria_migratoria}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="{{form.id_cfg_estado_civil.id_for_label}}">{{form.id_cfg_estado_civil.label}}</label>
+                                        {{form.id_cfg_estado_civil}}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show" id="home_21" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.discapacidad.id_for_label}}">{{form.discapacidad.label}}</label>
+                                        {{form.discapacidad}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.discapacidad_renal.id_for_label}}">{{form.discapacidad_renal.label}}</label>
+                                        {{form.discapacidad_renal}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.discapacidad_neurologica.id_for_label}}">{{form.discapacidad_neurologica.label}}</label>
+                                        {{form.discapacidad_neurologica}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.enfermedad_alergica.id_for_label}}">{{form.enfermedad_alergica.label}}</label>
+                                        {{form.enfermedad_alergica}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.asma.id_for_label}}">{{form.asma.label}}</label>
+                                        {{form.asma}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.epilepsia.id_for_label}}">{{form.epilepsia.label}}</label>
+                                        {{form.epilepsia}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.enfermedad_congenita.id_for_label}}">{{form.enfermedad_congenita.label}}</label>
+                                        {{form.enfermedad_congenita}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.enfermedad_respiratoria.id_for_label}}">{{form.enfermedad_respiratoria.label}}</label>
+                                        {{form.enfermedad_respiratoria}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.atencion_psicologica.id_for_label}}">{{form.atencion_psicologica.label}}</label>
+                                        {{form.atencion_psicologica}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show" id="home_41" role="tabpanel"  aria-labelledby="home-tab">
+                            <div class="row" id="tab-fam">
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.pnombres.id_for_label}}">{{form.pnombres.label}}</label>
+                                        {{form.pnombres}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.papellidos.id_for_label}}">{{form.papellidos.label}}</label>
+                                        {{form.papellidos}}
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.pidentificacion.id_for_label}}">{{form.pidentificacion.label}}</label>
+                                        {{form.pidentificacion}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.pdireccion.id_for_label}}">{{form.pdireccion.label}}</label>
+                                        {{form.pdireccion}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.ptelefono.id_for_label}}">{{form.ptelefono.label}}</label>
+                                        {{form.ptelefono}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.pvive_con_usted.id_for_label}}">{{form.pvive_con_usted.label}}</label>
+                                        {{form.pvive_con_usted}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.pvive_con_usted.id_for_label}}">{{form.pvive_con_usted.label}}</label>
+                                        {{form.pvive_con_usted}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.id_cfg_estado_laboralp.id_for_label}}">{{form.id_cfg_estado_laboralp.label}}</label>
+                                        {{form.id_cfg_estado_laboralp}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.mnombres.id_for_label}}">{{form.mnombres.label}}</label>
+                                        {{form.mnombres}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.mapellidos.id_for_label}}">{{form.mapellidos.label}}</label>
+                                        {{form.mapellidos}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.midentificacion.id_for_label}}">{{form.midentificacion.label}}</label>
+                                        {{form.midentificacion}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.mdireccion.id_for_label}}">{{form.mdireccion.label}}</label>
+                                        {{form.mdireccion}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.mtelefono.id_for_label}}">{{form.mtelefono.label}}</label>
+                                        {{form.mtelefono}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.mvive_con_usted.id_for_label}}">{{form.mvive_con_usted.label}}</label>
+                                        {{form.mvive_con_usted}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.id_cfg_estado_laboralm.id_for_label}}">{{form.id_cfg_estado_laboralm.label}}</label>
+                                        {{form.id_cfg_estado_laboralm}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.bono_solidario.id_for_label}}">{{form.bono_solidario.label}}</label>
+                                        {{form.bono_solidario}}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show" id="home_61" role="tabpanel"  aria-labelledby="home-tab">
+                            <div class="row" id="tab-rep">
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.rnombres.id_for_label}}">{{form.rnombres.label}}</label>
+                                        {{form.rnombres}}
+                                    </div>
+                                </div>
+                                 <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.rapellidos.id_for_label}}">{{form.rapellidos.label}}</label>
+                                        {{form.rapellidos}}
+                                    </div>
+                                </div>
+                                 <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.rtelefono.id_for_label}}">{{form.rtelefono.label}}</label>
+                                        {{form.rtelefono}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.id_cfg_tipo_identificacion.id_for_label}}">{{form.id_cfg_tipo_identificacion.label}}</label>
+                                        {{form.id_cfg_tipo_identificacion}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.ridentificacion.id_for_label}}">{{form.ridentificacion.label}}</label>
+                                        {{form.ridentificacion}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.tipo_parentesco.id_for_label}}">{{form.tipo_parentesco.label}}</label>
+                                        {{form.tipo_parentesco}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.rvive_con_usted.id_for_label}}">{{form.rvive_con_usted.label}}</label>
+                                        {{form.rvive_con_usted}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.rdireccion_trabajo.id_for_label}}">{{form.rdireccion_trabajo.label}}</label>
+                                        {{form.rdireccion_trabajo}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.rtelefono_trabajo.id_for_label}}">{{form.rtelefono_trabajo.label}}</label>
+                                        {{form.rtelefono_trabajo}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.rcorreo.id_for_label}}">{{form.rcorreo.label}}</label>
+                                        {{form.rcorreo}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.rhorario_laboral.id_for_label}}">{{form.rhorario_laboral.label}}</label>
+                                        {{form.rhorario_laboral}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="{{form.miembros_hogar.id_for_label}}">{{form.miembros_hogar.label}}</label>
+                                        {{form.miembros_hogar}}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end">
+                           <button class="btn btn-primary rounded-pill"
+                                   type="submit">{% trans "Guardar" %}
+                           </button>
+                           <button class="btn btn-light-secondary  rounded-pill"
+                                   type="reset">{% trans "Reset" %}
+                           </button>
+                           <a class="btn btn-danger rounded-pill" href="{% url 'mant:personas' %}">{% trans "Cancelar" %}</a>
+                       </div>
+                   </div>
+                </div>
+            </form>
         </div>
+
     </div>
 </section>
-
 {% endblock content %}
 {% block scripts %}
 <script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
 
 <script>
-{% if form.non_field_errors  %}
+    {% if form.non_field_errors %}
     Swal.fire({
-                title: '',
-                html: '{{ form.non_field_errors }}',
-                icon: "error",
-                showCancelButton: false,
-                confirmButtonColor: '#1a2537',
-                confirmButtonText: '{% trans 'Aceptar' %}'
+        title: '',
+        html: '{{ form.non_field_errors }}',
+        icon: "error",
+        showCancelButton: false,
+        confirmButtonColor: '#1a2537',
+        confirmButtonText: '{% trans 'Aceptar' %}'
             })
-    
+
     {% endif %}
-     {% if form.errors  %}
+    {% if form.errors %}
     Swal.fire({
-                title: '',
-                html: '{{ form.errors }}',
-                icon: "error",
-                showCancelButton: false,
-                confirmButtonColor: '#1a2537',
-                confirmButtonText: '{% trans 'Aceptar' %}'
+        title: '',
+        html: '{{ form.errors }}',
+        icon: "error",
+        showCancelButton: false,
+        confirmButtonColor: '#1a2537',
+        confirmButtonText: '{% trans 'Aceptar' %}'
             })
-    
+
     {% endif %}
     {% if messages %}
     Swal.fire({
-                title: '',
-                html: '{% for i in messages %}{{i}}{% endfor %}',
-                icon: "success",
-                showCancelButton: false,
-                confirmButtonColor: '#1a2537',
-                confirmButtonText: '{% trans 'Aceptar' %}'
-            }).then(()=>{
-                window.location.href = '{{url}}'
-            })
-    
-    {% endif %}
+        title: '',
+        html: '{% for i in messages %}{{i}}{% endfor %}',
+        icon: "success",
+        showCancelButton: false,
+        confirmButtonColor: '#1a2537',
+        confirmButtonText: '{% trans 'Aceptar' %}'
+            }).then(() => {
+            window.location.href = '{{url}}'
+        })
 
+    {% endif %}
+    let val = document.getElementById('id_{{form.is_empleado.name}}');
+    console.log(val)
+    val.addEventListener('change',function () {
+        check_is_emplado = val.checked
+        if(check_is_emplado){
+            let item_rep = document.getElementById('item-rep');
+            let item_fam = document.getElementById('item-familiares');
+            let tab_fam = document.getElementById('tab-fam');
+            let tab_rep = document.getElementById('tab-rep')
+            item_rep.style = "display:none;"
+            item_fam.style = "display:none;"
+            tab_fam.style = "display: none;"
+
+        }else{
+            let item_rep = document.getElementById('item-rep');
+            let item_fam = document.getElementById('item-familiares');
+            let tab_rep = document.getElementById('tab-rep')
+            let tab_fam = document.getElementById('tab-fam');
+            item_rep.style = "";
+            item_fam.style = "";
+            tab_fam.style = ""
+
+        }
+    })
 </script>
 
 {% endblock scripts %}

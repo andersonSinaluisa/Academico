@@ -64,7 +64,7 @@ class PersonaEditar(PermissionRequiredMixin, UpdateView):
     a la pantalla """
 
     model = Persona
-    template_name = 'persona/editar_persona.html'
+    template_name = 'persona/crear_persona.html'
     permission_required = "mant.change_persona"
     form_class = PersonaEditForm
     success_url = reverse_lazy('mant:personas')

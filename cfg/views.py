@@ -276,7 +276,7 @@ class GeneralCrear(PermissionRequiredMixin, CreateView):
 
     model = GenrGeneral
     template_name = 'general/crear_general.html'
-    permission_required = "cfg.add_general"
+    permission_required = "cfg.add_genrgeneral"
     form_class = GeneralForm
     success_url = reverse_lazy('cfg:general')
     login_url = "/"
@@ -289,7 +289,7 @@ class GeneralListar(PermissionRequiredMixin, ListView):
 
     model = GenrGeneral
     template_name = 'general/listar_general.html'
-    permission_required = "cfg.view_general"
+    permission_required = "cfg.view_genrgeneral"
     context_object_name = 'obj'
     login_url = "/"
 

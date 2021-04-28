@@ -16,9 +16,6 @@ class PersonaForm(forms.ModelForm):
             "fecha_ingreso",
             "usuario_ing",
             "terminal_ing",
-            "is_estudiante",
-            "is_empleado",
-            "is_representante",
             "id_usuario"
         }
 
@@ -33,6 +30,9 @@ class PersonaForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
+        self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Estudiantes')
+        self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado')
+        self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante')
         self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
 
         self.fields['id_cfg_genero'].queryset = GenrGeneral.objects.filter(tipo='GEN')
@@ -61,9 +61,6 @@ class PersonaEditForm(forms.ModelForm):
             "fecha_ingreso",
             "usuario_ing",
             "terminal_ing",
-            "is_estudiante",
-            "is_empleado",
-            "is_representante",
             "id_usuario"
         }
 
@@ -78,6 +75,10 @@ class PersonaEditForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
+        
+        self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Estudiantes')
+        self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado')
+        self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante')
         self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
 
         self.fields['id_cfg_genero'].queryset = GenrGeneral.objects.filter(tipo='GEN')
