@@ -52,6 +52,36 @@ class PersonaCrear(PermissionRequiredMixin, CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             c = form.save()
+            is_empleado = form.cleaned_data['is_empelado']
+            if is_empleado:
+                c.pnombres = None
+                c.papellidos = None
+                c.pidentificacion = None
+                c.pdireccion = None
+                c.ptelefono = None
+                c.pvive_con_usted = None
+                c.id_cfg_estado_laboralp = None
+                c.mnombres = None
+                c.mapellidos = None
+                c.midentificacion = None
+                c.mdireccion = None
+                c.mtelefono = None
+                c.mvive_con_usted = None
+                c.id_cfg_estado_laboralm = None
+                c.bono_solidario = None
+                c.rnombres = None
+                c.rapellidos = None
+                c.rtelefono = None
+                c.id_cfg_tipo_identificacion = None
+                c.ridentificacion = None
+                c.tipo_parentesco = None
+                c.rvive_con_usted = None
+                c.rdireccion_trabajo = None
+                c.rtelefono_trabajo = None
+                c.rcorreo = None
+                c.rhorario_laboral = None
+                c.miembros_hogar = None
+                c.save()
             tmp_pass, password = self.generate_password(request)
             user = User(username=c.identificacion, password=password, first_name=c.nombres, last_name=c.apellidos)
             user.save()

@@ -34,7 +34,7 @@ class PersonaForm(forms.ModelForm):
         self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado')
         self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante')
         self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
-
+        self.fields['fecha_de_nacimiento'] = forms.DateTimeField(widget=forms.DateInput(attrs={'class':'form-control','type':'date'}))
         self.fields['id_cfg_genero'].queryset = GenrGeneral.objects.filter(tipo='GEN')
         self.fields['id_cfg_pais'].queryset = GenrGeneral.objects.filter(tipo='TPA')
         self.fields['id_cfg_estado_civil'].queryset = GenrGeneral.objects.filter(tipo='EST')

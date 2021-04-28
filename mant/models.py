@@ -104,7 +104,6 @@ class Persona(models.Model):
     miembros_hogar = models.IntegerField(blank=True, null=True, verbose_name=_('Numero Miembros del hogar'))
     is_estudiante = models.BooleanField(null=True, verbose_name=_('Es Estudiante'))
     is_empleado = models.BooleanField(null=True, verbose_name=_('Es Empleado'))
-    is_representante = models.BooleanField(null=True, verbose_name=_('Es Representante'))
 
     def __str__(self):
         """función que retorna el nombre de

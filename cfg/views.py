@@ -345,7 +345,7 @@ class GeneralEditar(PermissionRequiredMixin, UpdateView):
 
     model = GenrGeneral
     template_name = 'general/crear_general.html'
-    permission_required = "cfg.change_general"
+    permission_required = "cfg.change_genrgeneral"
     form_class = GeneralEditForm
     login_url = "/"
     success_url = reverse_lazy('cfg:general')
@@ -358,5 +358,5 @@ class GeneralEliminar(PermissionRequiredMixin, DeleteView):
     model = GenrGeneral
     template_name = 'general/eliminar_general.html'
     success_url = reverse_lazy('cfg:general')
-    permission_required = "cfg.delete_general"
+    permission_required = "cfg.delete_genrgeneral"
     login_url = "/"
