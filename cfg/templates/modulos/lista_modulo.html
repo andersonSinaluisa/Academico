@@ -55,28 +55,37 @@
                         <td>{{i.codigo}}</td>
                         <td>{{i.nombre}}</td>
                         <td><i class="{{i.icono}}"></i></td>
-                        <td>{% if i.estado %}<span class="badge bg-success">{% trans "Activo" %}</span>{% else %}<span class="badge bg-danger">{% trans "Inactivo" %}</span>{% endif %}</td>
-                        {% if perms.cfg.change_modulo %}
-                        <td>
-                            <a href="{% url 'cfg:editar_modulo' i.id_modulo %}"><i class="bi bi-pencil-square"></i></a>
+                        <td>{% if i.estado %}<span class="badge bg-success">{% trans "Activo" %}</span>{% else %}<span
+                                class="badge bg-danger">{% trans "Inactivo" %}</span>{% endif %}
                         </td>
-                        {% endif %}
+                        <td align="center">
+                            {% if perms.cfg.change_modulo %}
+                            <a href="{% url 'cfg:editar_modulo' i.id_modulo %}"><i class="bi bi-pencil-square"></i></a>
+                            {% endif %}
+                            {% if perms.cfg.delete_modulo %}
+                            <button style="border:hidden; background-color: transparent; color: red;"
+                                    onclick="modal('{% url 'cfg:eliminar_modulo' i.id_modulo %}')">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-
 </section>
+<div class="modal fade text-left modal-borderless" id="mostrar_modal" role="dialog">
+</div>
 {% endblock content %}
- {% block scripts %}
+{% block scripts %}
 <script src="{% static 'dist/assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
- <script>
- // Simple Datatable
-        let table1 = document.querySelector('#table1');
-        let dataTable = new simpleDatatables.DataTable(table1);
- 
- </script>
- 
- {% endblock scripts %}
+<script>
+// Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+
+</script>
+
+{% endblock scripts %}

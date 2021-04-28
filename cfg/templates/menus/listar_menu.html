@@ -59,13 +59,21 @@
                         <td>{{i.id_modulo}}</td>
                         <td>
                             {% if i.estado %}
-                                <span class="badge bg-success">{% trans "Activo" %}</span>
+                            <span class="badge bg-success">{% trans "Activo" %}</span>
                             {% else %}
-                                <span class="badge bg-danger">{% trans "Inactivo" %}</span>
+                            <span class="badge bg-danger">{% trans "Inactivo" %}</span>
                             {% endif %}
                         </td>
-                        <td>
+                        <td align="center">
+                            {% if perms.cfg.change_menu %}
                             <a href="{% url 'cfg:editar_menu' i.id_menu %}"><i class="bi bi-pencil-square"></i></a>
+                            {% endif %}
+                            {% if perms.cfg.delete_menu %}
+                            <button style="border:hidden; background-color: transparent; color: red;"
+                                    onclick="modal('{% url 'cfg:eliminar_menu' i.id_menu %}')">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -73,7 +81,9 @@
             </table>
         </div>
     </div>
-
+    <!----Modal de eliminar------>
+    <div class="modal fade text-left modal-borderless" id="mostrar_modal" role="dialog">
+    </div>
 </section>
 {% endblock content %}
  {% block scripts %}

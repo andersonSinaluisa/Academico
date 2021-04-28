@@ -53,8 +53,17 @@
                         <td>{{i.tipo}}</td>
                         <td>{{i.codigo}}</td>
                         <td>{{i.nombre}}</td>
-                        <td>
-                            <a href="{% url 'cfg:editar_general' i.idgenr_general %}"><i class="bi bi-pencil-square"></i></a>
+                        <td align="center">
+                            {% if perms.cfg.change_general %}
+                            <a href="{% url 'cfg:editar_general' i.idgenr_general %}"><i
+                                    class="bi bi-pencil-square"></i></a>
+                            {% endif %}
+                            {% if perms.cfg.delete_general %}
+                            <button style="border:hidden; background-color: transparent; color: red;"
+                                    onclick="modal('{% url 'cfg:eliminar_general' i.idgenr_general %}')">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -62,7 +71,8 @@
             </table>
         </div>
     </div>
-
+    <div class="modal fade text-left modal-borderless" id="mostrar_modal" role="dialog">
+    </div>
 </section>
 {% endblock content %}
  {% block scripts %}

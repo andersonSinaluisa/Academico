@@ -1,0 +1,25 @@
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header bg-danger">
+            <h5 class="modal-title white" id="myModalLabel1">Eliminar campo general "{{ object }}"</h5>
+            <button type="button" class="close rounded-pill"
+                    data-bs-dismiss="modal" aria-label="Close">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+        <form action="{% url 'cfg:eliminar_general' object.idgenr_general %}" autocomplete="off" class="form"
+              method="POST">
+            <div class="modal-body">
+                {% csrf_token %}
+              <p>¿Esta seguro de que desea eliminar el campo general "<strong>{{ object }}</strong>"?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary"
+                        data-bs-dismiss="modal">
+                    <span class="d-none d-sm-block">Cancelar</span>
+                </button>
+                <input type="submit" class="btn btn-danger" value="Eliminar">
+            </div>
+        </form>
+    </div>
+</div>

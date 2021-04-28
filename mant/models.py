@@ -105,3 +105,12 @@ class Persona(models.Model):
     is_estudiante = models.BooleanField(null=True, verbose_name=_('Es Estudiante'))
     is_empleado = models.BooleanField(null=True, verbose_name=_('Es Empleado'))
     is_representante = models.BooleanField(null=True, verbose_name=_('Es Representante'))
+
+    def __str__(self):
+        """función que retorna el nombre de
+        un objecto Modulo
+
+        Returns:
+            [str]: [nombre del modulo]
+        """
+        return self.nombres + " " + self.apellidos

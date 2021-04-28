@@ -44,6 +44,15 @@ class Menu(models.Model):
         verbose_name = 'Menu'
         verbose_name_plural = 'Menus'
 
+    def __str__(self):
+        """función que retorna el nombre de
+        un objecto Modulo
+
+        Returns:
+            [str]: [nombre del modulo]
+        """
+        return self.nombre
+
 
 class GenrGeneral(models.Model):
     """Tabla general para guardar lista"""

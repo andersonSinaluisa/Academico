@@ -55,8 +55,16 @@
                     <td>{{i.nombres}}</td>
                     <td>{{i.apellidos}}</td>
                     <td>{{i.id_cfg_genero}}</td>
-                    <td>
+                    <td align="center">
+                        {% if perms.mant.change_persona %}
                         <a href="{% url 'mant:editar_persona' i.id_persona %}"><i class="bi bi-pencil-square"></i></a>
+                        {% endif %}
+                        {% if perms.mant.delete_persona %}
+                        <button style="border:hidden; background-color: transparent; color: red;"
+                                onclick="modal('{% url 'mant:eliminar_persona' i.id_persona %}')">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -64,7 +72,8 @@
             </table>
         </div>
     </div>
-
+    <div class="modal fade text-left modal-borderless" id="mostrar_modal" role="dialog">
+    </div>
 </section>
 {% endblock content %}
 {% block scripts %}
