@@ -49,16 +49,26 @@
                     <tr>
                         <td>{{i.name}}</td>
                         <td>{% for a in i.permissions.all %}{{a.name}}<br>{% endfor %}</td>
-                        <td>{% if perms.auth.change_group %}
-                        <a href="{% url 'cfg:editar_rol' i.pk %}" class="btn btn-warning rounded-pill"><i class="bi bi-pencil-square"></i></a>
-                        {% endif %}</td>
+                        <td align="center">
+                            {% if perms.auth.change_group %}
+                            <a href="{% url 'cfg:editar_rol' i.pk %}" class="btn btn-warning rounded-pill"><i
+                                    class="bi bi-pencil-square"></i></a>
+                            {% endif %}
+                            {% if perms.auth.delete_group %}
+                            <button onclick="modal('{% url 'cfg:eliminar_rol' i.id %}')"
+                                    class="btn btn-danger rounded-pill">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-
+    <div class="modal fade text-left modal-borderless" id="mostrar_modal" role="dialog">
+    </div>
 </section>
 {% endblock content %}
  {% block scripts %}

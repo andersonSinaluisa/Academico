@@ -5,4 +5,5 @@ urlpatterns = [
     path("personas/", PersonaListar.as_view(), name="personas"),
     path("crear-persona/", PersonaCrear.as_view(), name="crear_persona"),
     path("editar-persona/<int:pk>", PersonaEditar.as_view(), name="editar_persona"),
+    path("eliminar-persona/<int:pk>", PersonaEliminar.as_view(), name="eliminar_persona"),
 ]
