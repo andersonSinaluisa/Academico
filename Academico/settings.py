@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cfg',
     'matr',
     'reg',
+    'rep',
     'mant'
 ]
 
