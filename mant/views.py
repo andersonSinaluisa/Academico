@@ -52,7 +52,7 @@ class PersonaCrear(PermissionRequiredMixin, CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             c = form.save()
-            is_empleado = form.cleaned_data['is_empelado']
+            is_empleado = form.cleaned_data['is_empleado']
             if is_empleado:
                 c.pnombres = None
                 c.papellidos = None
