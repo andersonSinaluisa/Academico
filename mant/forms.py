@@ -28,11 +28,12 @@ class PersonaForm(forms.ModelForm):
         self.fields['rol'] = forms.ChoiceField(choices=[(i.pk,i.name)for i in Group.objects.all()])
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({
-                'class': 'form-control'
+                'class': 'form-control',
             })
-        self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Estudiantes')
-        self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado')
-        self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante')
+            self.fields[field].required=False
+        self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Estudiantes',required=False)
+        self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado',required=False)
+        self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante',required=False)
         self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
         self.fields['fecha_de_nacimiento'] = forms.DateTimeField(widget=forms.DateInput(attrs={'class':'form-control','type':'date'}))
         self.fields['id_cfg_genero'].queryset = GenrGeneral.objects.filter(tipo='GEN')

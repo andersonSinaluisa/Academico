@@ -11,6 +11,7 @@
     <div class="row">
         <div class="col-md-12">
             <form class="card" method="POST" enctype='multipart/form-data'>
+                {% csrf_token %}
                 <div class="card-header">
                     <h5 class="card-title">{% trans "Asigne un rol y complete toda la información" %}</h5>
                     <div class="col-md-6 col-6">
