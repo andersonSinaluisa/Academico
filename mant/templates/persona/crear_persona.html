@@ -21,14 +21,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3  col-sm-6 col-xs-6">
+                        <div class="col-md-3  col-sm-6 col-xs-6" id="block-estudiante">
                             <div class="form-group">
                                 <label
                                     for="{{form.is_estudiante.id_for_label}}">{{form.is_estudiante.label}}</label>
                                 {{form.is_estudiante}}
                             </div>
                         </div>
-                        <div class="col-md-3  col-sm-6 col-xs-6">
+                        <div class="col-md-3  col-sm-6 col-xs-6" id="block-empleado">
                             <div class="form-group">
                                 <label
                                     for="{{form.is_empleado.id_for_label}}">{{form.is_empleado.label}}</label>
@@ -484,6 +484,7 @@
 
     {% endif %}
     let val = document.getElementById('id_{{form.is_empleado.name}}');
+    let val_est = document.getElementById('id_{{form.is_estudiante.name}}');
     console.log(val)
     val.addEventListener('change',function () {
         check_is_emplado = val.checked
@@ -492,21 +493,46 @@
             let item_fam = document.getElementById('item-familiares');
             let tab_fam = document.getElementById('tab-fam');
             let tab_rep = document.getElementById('tab-rep')
+            let block_estudiante = document.getElementById('block-estudiante')
+            let block_empleado = document.getElementById('block-empleado')
+            block_estudiante.style = "display:none;"
+            block_empleado.style = ""
             item_rep.style = "display:none;"
             item_fam.style = "display:none;"
             tab_fam.style = "display: none;"
-
+            
         }else{
             let item_rep = document.getElementById('item-rep');
             let item_fam = document.getElementById('item-familiares');
             let tab_rep = document.getElementById('tab-rep')
             let tab_fam = document.getElementById('tab-fam');
+            let block_estudiante = document.getElementById('block-estudiante')
+            let block_empleado = document.getElementById('block-empleado')
             item_rep.style = "";
             item_fam.style = "";
-            tab_fam.style = ""
+            tab_fam.style = "";
+            block_estudiante.style = ""
+            block_empleado.style = ""
 
         }
+
+        val_est.addEventListener('change',function () {
+            check_is_estudiante = val_est.checked
+            if(check_is_estudiante){
+                let block_estudiante = document.getElementById('block-estudiante')
+                let block_empleado = document.getElementById('block-empleado')
+                block_estudiante.style = ""
+                block_empleado.style = "display:none;"
+            }else{
+                let block_estudiante = document.getElementById('block-estudiante')
+                let block_empleado = document.getElementById('block-empleado')
+                block_estudiante.style = ""
+                block_empleado.style = ""
+            }
+        })
+        
     })
+
 </script>
 
 {% endblock scripts %}

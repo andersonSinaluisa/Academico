@@ -9,6 +9,8 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 from mant.forms import PersonaForm, PersonaEditForm
 from mant.models import Persona
+from django.utils.translation import ugettext as _
+from django.contrib import messages
 
 
 class PersonaListar(PermissionRequiredMixin, ListView):
@@ -34,7 +36,7 @@ class PersonaCrear(PermissionRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(PersonaCrear, self).get_context_data(**kwargs)
         context['url'] = self.success_url
-        context['accion'] = 'Editar'
+        context['accion'] = 'Crear'
         return context
 
     @staticmethod
@@ -87,6 +89,7 @@ class PersonaCrear(PermissionRequiredMixin, CreateView):
             user.save()
             grupo = Group.objects.filter(pk=form.cleaned_data['rol']).first()
             grupo.user_set.add(user)
+            messages.success(request, _('Persona Registrada con exito'))
 
         return render(request, self.template_name, self.get_context_data(form=form))
 
@@ -107,6 +110,28 @@ class PersonaEditar(PermissionRequiredMixin, UpdateView):
         context['url'] = self.success_url
         context['accion'] = 'Editar'
         return context
+
+    
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        self.object = self.get_object
+        obj = self.model.objects.get(id_persona=pk)
+        form = self.form_class(instance=obj)
+        group = None
+        if obj.id_usuario:
+            user = User.objects.filter(id=obj.id_usuario.id).first()
+            group = user.groups.all().first()
+        context = {}
+        for i in form:
+            if group:
+                if i.name == 'rol':
+                    context[i.name] = group.id
+                else:
+                    context[i.name] = i.value()
+            else:
+                context[i.name] = i.value()
+        form = self.form_class(data=context, instance=obj)
+        return render(request, self.template_name, self.get_context_data(form=form))
 
 
 class PersonaEliminar(PermissionRequiredMixin, DeleteView):
