@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_menu %}Reporte de Matrículas{% endblock title_menu %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'dist/assets/vendors/choices.js/choices.min.css' %}">
+{% endblock styles %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <table align="center">
+        <tr align="center">
+            <th>Año lectivo</th>
+            <th>Jornada</th>
+            <th>Curso</th>
+            <th>Sección</th>
+        </tr>
+        <tr>
+            <td>
+                <select name="" id="anio_l" class="form-select">
+                    {% for i in al %}
+                    <option value="{{i.id_anio_lectivo}}">{{i.anio}}</option>
+                    {% empty %}
+                    <option value="" disabled>No hay años registrados</option>
+                    {% endfor %}
+                    <option value="" selected="selected" disabled hidden>Escoja un año lectivo</option>
+                </select>
+            </td>
+            <td>
+                <select name="" id="jor_nada" class="form-select">
+                    {% for i in jo %}
+                    <option value={{i.idgenr_general}}>{{i.nombre}}</option>
+                    {% empty %}
+                    <option value="" disabled>No hay años registrados</option>
+                    {% endfor %}
+                    <option value="" disabled hidden selected>Seleccione una jornada</option>
+                </select>
+            </td>
+            <td>
+                <select name="" id="cur_so" class="form-select">
+                    <option value="" disabled hidden selected>Seleccione un curso</option>
+                </select>
+            </td>
+            <td>
+                <select name="" id="sec_cion" class="form-select">
+                <option value="" disabled hidden selected>Seleccione un paralelo</option>
+                </select>
+            </td>
+        </tr>
+        <tr align="center">
+            <td colspan="4">Estudiante</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <select name="" id="" class="choices">
+                    {% for i in es %}
+                    <option value={{i.id_persona}}>{{i.nombres}} {{i.apellidos}}</option>
+                    {% empty %}
+                    <option value="" disabled>No hay años registrados</option>
+                    {% endfor %}
+                    <option value="" disabled hidden selected>Seleccione un estudiante</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <br>
+    <button class="btn btn-success">Imprimir reporte</button>
+</form>
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'dist/assets/vendors/choices.js/choices.min.js'%}"></script>
+<script>
+$(document).ready(function(){
+    jo_rn_ada = $("#jor_nada").select().val()
+    if (jo_rn_ada != null){
+        consultar_cursos(jo_rn_ada)
+        }
+    id_cu_rs_o = $("#cur_so").select().val()
+    if (id_cu_rs_o != null){
+        consultar_seccion(id_cu_rs_o)
+        }
+})
+$("#jor_nada").change(function(){
+    jo_rn_ada = $("#jor_nada").select().val()
+    if (jo_rn_ada != null){
+        consultar_cursos(jo_rn_ada)
+        }
+    }
+)
+$("#cur_so").change(function(){
+    id_cu_rs_o = $("#cur_so").select().val()
+    if (id_cu_rs_o != null){
+        consultar_seccion(id_cu_rs_o)
+        }
+    }
+)
+function consultar_cursos(id_jornada){
+    $.ajax({
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        url: "{% url 'rep:consultar_cursos' %}",
+        type: "POST",
+        data:{"jornada": id_jornada},
+        success: function(response) {
+            console.log(response.lista)
+            cu_rs_o = document.getElementById('cur_so')
+            cu_rs_o.innerHTML = ""
+            response.lista.forEach(e => {
+            console.log(e)
+            cu_rs_o.innerHTML += "<option value="+e.id+">"+e.curso+"</option>"
+            })
+        },
+        error: function(jqXHR, textStatus, errorThrow) {
+            console.log(textStatus)}
+        })
+}
+function consultar_seccion(id_curs_o){
+    $.ajax({
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        url: "{% url 'rep:consultar_secciones' %}",
+        type: "POST",
+        data:{"curso_i": id_curs_o},
+        success: function(response) {
+            console.log(response.listaa)
+            se_cc_io_n = document.getElementById('sec_cion')
+            se_cc_io_n.innerHTML = ""
+            response.listaa.forEach(e => {
+            console.log(e)
+            se_cc_io_n.innerHTML += "<option value="+e.id_c+">"+e.paralelo+"</option>"
+            })
+        },
+        error: function(jqXHR, textStatus, errorThrow) {
+            console.log(textStatus)}
+        })
+}
+</script>
+{% endblock scripts %}
