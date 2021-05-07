@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_menu %}Reporte de los Profesores{% endblock title_menu %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'dist/assets/vendors/choices.js/choices.min.css' %}">
+{% endblock styles %}
+{% block content %}
+<form method="post" action="{% url 'rep:reporte_profesores' %}" >
+    {% csrf_token %}
+    <select name="id_per" id="" class="choices form-select is-disabled">
+        {% for i in obj %}
+        <option value={{i.id_persona}}>{{i.nombres}} {{i.apellidos}}</option>
+        {% endfor %}
+        <option value="" disabled hidden selected>Seleccione un empleado</option>
+    </select>
+    <button class="btn btn-success" type="submit">Imprimir reporte</button>
+</form>
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'dist/assets/vendors/choices.js/choices.min.js'%}"></script>
+{% endblock scripts %}
