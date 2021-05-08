@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}{{accion}}  {% trans "Curso" %}{% endblock title_menu %}
+{% block title %}{{accion}} {% trans "Curso" %}{% endblock title %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'dist/assets/vendors/choices.js/choices.min.css' %} " />
+
+
+{% endblock styles %}
+{% block content %}
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                {% if alert %}
+                    <div class="alert alert-warning">
+                        <h4 class="alert-heading text-black">{% trans "Advertencia" %}</h4>
+                        <p class="text-black">{{alert}}</p>
+                    </div>
+                {% endif %}
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form" method="POST" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="row">
+                                   
+                                {% for i in form %}
+                                    
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="{{i.id_for_label}}">{{i.label}}</label>
+                                            {{i}}
+                                        </div>
+                                    </div>
+                                
+                                {% endfor %}
+                                <div class="row" id="horas-row">
+
+                                </div>
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button class="btn btn-primary rounded-pill"
+                                            type="submit">{% trans "Guardar" %}
+                                    </button>
+                                    <button class="btn btn-light-secondary  rounded-pill"
+                                            type="reset">{% trans "Reset" %}
+                                    </button>
+                                    <a class="btn btn-danger rounded-pill" href="{% url 'matr:cursos' %}">{% trans "Cancelar" %}</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+ {% block scripts %}
+<script src="{% static 'dist/assets/vendors/choices.js/choices.min.js' %} "></script>
+
+<script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
+
+ <script>
+{% if form.non_field_errors  %}
+    Swal.fire({
+                title: '',
+                html: '{{ form.non_field_errors }}',
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+    
+    {% endif %}
+     {% if form.errors  %}
+    Swal.fire({
+                title: '',
+                html: '{{ form.errors }}',
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+    
+    {% endif %}
+    {% if messages %}
+    Swal.fire({
+                title: '',
+                html: '{% for i in messages %}{{i}}{% endfor %}',
+                icon: "success",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            }).then(()=>{
+                window.location.href = '{{url}}'
+            })
+    
+    {% endif %}
+    $(document).ready(function(){
+        horas_content = document.getElementById('horas-row')
+        horas_content.innerHTML = ""
+        $('#id_{{form.materia.name}} :selected').map(function (x,i) {
+            horas_content.innerHTML += "<div class='col-md-6 col-12'>"+
+                                        "<div class='form-group'>"+
+                                            "<label for='"+$(i).val()+"'>Horas Semanales "+$(i).text()+"</label>"+
+                                            "<input type='number' class='form-control' name='"+$(i).val()+"' required='true'>"+
+                                        "</div>"+
+                                    "</div>"
+        })
+        
+    })
+
+    $('#id_{{form.materia.name}}').change(function () {
+        horas_content = document.getElementById('horas-row')
+        horas_content.innerHTML = ""
+        $('#id_{{form.materia.name}} :selected').map(function (x,i) {
+            horas_content.innerHTML += "<div class='col-md-6 col-12'>"+
+                                        "<div class='form-group'>"+
+                                            "<label for='"+$(i).val()+"'>Horas Semanales "+$(i).text()+"</label>"+
+                                            "<input type='number' class='form-control' name='"+$(i).val()+"' required='true'>"+
+                                        "</div>"+
+                                    "</div>"
+        })
+        
+    })
+ </script>
+ 
+ {% endblock scripts %}

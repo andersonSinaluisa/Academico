@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}{% trans "Cursos" %}{% endblock title_menu %}
+{% block styles %}
+ <style>
+        .fontawesome-icons {
+            text-align: center;
+        }
+
+        article dl {
+            background-color: rgba(0, 0, 0, .02);
+            padding: 20px;
+        }
+
+        .fontawesome-icons .the-icon svg {
+            font-size: 24px;
+        }
+ </style>
+<link href="{% static 'dist/assets/vendors/simple-datatables/style.css' %}" rel="stylesheet">
+
+{% endblock styles %}
+
+
+{% block title %}{% trans "Cursos" %}{% endblock title %}
+
+{% block content %}
+ <div class="d-flex flex-row-reverse bd-highlight">
+
+ <div class="bd-highlight">
+        
+        {% if perms.matr.add_aniolectivo %}
+            <a href="{% url 'matr:crear_curso' %}" class="btn btn-success rounded-pill">{% trans "Crear Curso" %}</a>
+        {% endif %}
+        
+</div>
+</div>
+<section class="section">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped" id="table1">
+                <thead>
+                <tr>
+                    <th>{% trans "Codigo" %}</th>
+                    <th>{% trans "Nombre" %}</th>
+                    <th>{% trans "Modalidad" %}</th>
+                    <th>{% trans "Formación" %}</th>
+                    <th>{% trans "# Cupos" %}</th>
+                    <th>{% trans "Acciones" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for i in obj %}                        
+                        <tr>
+                            <td>{{i.codigo}}</td>
+                            <td>{{i.nombre}}</td>
+                            <td>{{i.id_cfg_modalidad}}</td>
+                            <td>{{i.id_cfg_formacion}}</td>
+                            <td>{{i.cupos}}</td>
+                            <td>
+                            {% if perms.matr.change_materia %}
+                                <a href="{% url 'matr:editar_curso' i.id_curso %}" class="btn btn-warning rounded-pill"><i
+                                            class="bi bi-pencil-square"></i></a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade text-left modal-borderless" id="mostrar_modal" role="dialog">
+    </div>
+</section>
+{% endblock content %}
+ {% block scripts %}
+<script src="{% static 'dist/assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
+ <script>
+ // Simple Datatable
+        let table1 = document.querySelector('#table1');
+        let dataTable = new simpleDatatables.DataTable(table1);
+ 
+ </script>
+ 
+ {% endblock scripts %}

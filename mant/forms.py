@@ -77,9 +77,9 @@ class PersonaEditForm(forms.ModelForm):
                 'class': 'form-control'
             })
         
-        self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Estudiantes')
-        self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado')
-        self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante')
+        self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Estudiantes',required=False)
+        self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado',required=False)
+        self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante',required=False)
         self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
 
         self.fields['id_cfg_genero'].queryset = GenrGeneral.objects.filter(tipo='GEN')
