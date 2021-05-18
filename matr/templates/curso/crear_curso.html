@@ -37,8 +37,11 @@
                                     </div>
                                 
                                 {% endfor %}
+                                <div class="divider">
+                                    <div class="divider-text">{% trans "Horas Materias" %}</div>
+                                </div>
                                 <div class="row" id="horas-row">
-
+                                    
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">
                                     <button class="btn btn-primary rounded-pill"
@@ -101,21 +104,21 @@
     
     {% endif %}
     $(document).ready(function(){
-        horas_content = document.getElementById('horas-row')
+        let horas_content = document.getElementById('horas-row')
         horas_content.innerHTML = ""
         $('#id_{{form.materia.name}} :selected').map(function (x,i) {
             horas_content.innerHTML += "<div class='col-md-6 col-12'>"+
                                         "<div class='form-group'>"+
                                             "<label for='"+$(i).val()+"'>Horas Semanales "+$(i).text()+"</label>"+
-                                            "<input type='number' class='form-control' name='"+$(i).val()+"' required='true'>"+
+                                            "<input type='number' class='form-control' name='"+$(i).val()+"' required='true' >"+
                                         "</div>"+
-                                    "</div>"
+                                    "</div>";
         })
         
     })
 
     $('#id_{{form.materia.name}}').change(function () {
-        horas_content = document.getElementById('horas-row')
+        let horas_content = document.getElementById('horas-row')
         horas_content.innerHTML = ""
         $('#id_{{form.materia.name}} :selected').map(function (x,i) {
             horas_content.innerHTML += "<div class='col-md-6 col-12'>"+
@@ -123,7 +126,7 @@
                                             "<label for='"+$(i).val()+"'>Horas Semanales "+$(i).text()+"</label>"+
                                             "<input type='number' class='form-control' name='"+$(i).val()+"' required='true'>"+
                                         "</div>"+
-                                    "</div>"
+                                    "</div>";
         })
         
     })

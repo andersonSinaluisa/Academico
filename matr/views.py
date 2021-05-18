@@ -1,10 +1,13 @@
+from typing import ClassVar
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from matr.models import AnioLectivo, CabCurso, Aniolectivo_curso, Materia,\
-    DetalleMateriaCurso
-from django.views.generic import CreateView, UpdateView, ListView, DeleteView
+    DetalleMateriaCurso, Materia_profesor
+from mant.models import Persona
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from matr.forms import AnioLectivoCrearForm, AnioLectivoEditarForm, CabCursoCrearForm,\
-    MateriaCrearForm, CabCursoEditarForm
+    MateriaCrearForm, CabCursoEditarForm, MateriaProfesorForm, MateriaProfesorForm
 from django.urls import reverse_lazy
 from django.contrib import messages
 from mant.models import GenrGeneral
@@ -92,6 +95,7 @@ class CabCursoCrear(PermissionRequiredMixin,CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             dict_data = dict(form.data)
+            print(dict_data)
             c = form.save()
             if form.cleaned_data['paralelos']:
                 paralelos = form.cleaned_data['paralelos']
@@ -104,15 +108,15 @@ class CabCursoCrear(PermissionRequiredMixin,CreateView):
                         estado=True,
                         cupos=form.cleaned_data['cupo']
                         )
-                if curso_detalle:
-                    for valor in form.cleaned_data['materia']:
-                        hora = int(dict_data[valor][0])
-                        DetalleMateriaCurso.objects.create(
-                            id_matr_anio_lectivo_curso=curso_detalle,
-                            total_horas=hora,
-                            id_materia_id=valor,
-                            estado=True
-                        )
+                    if curso_detalle:
+                        for valor in form.cleaned_data['materia']:
+                            hora = int(dict_data[valor][0])
+                            DetalleMateriaCurso.objects.create(
+                                id_matr_anio_lectivo_curso=curso_detalle,
+                                total_horas=hora,
+                                id_materia_id=valor,
+                                estado=True
+                            )
                     
 
             messages.success(request, 'Curso creado correctamente')
@@ -148,22 +152,70 @@ class CabCursoEditar(PermissionRequiredMixin,UpdateView):
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
         self.object = self.get_object
-        obj = self.model.objects.get(pk=pk)
+        obj = self.model.objects.filter(id_curso=pk).first()
         form = self.form_class(instance=obj)
         context = {}
         if obj:
             detalle = DetalleMateriaCurso.objects.filter(
                 id_matr_anio_lectivo_curso__id_curso=obj
                 )
-            if detalle:
-                array_materias = [materia.id_materia.id_materia for materia in detalle]
+            detalle_curso = Aniolectivo_curso.objects.filter(id_curso=obj).order_by('-paralelo')
+            if detalle and detalle_curso:
+                paralelos = ""
+                for x in detalle_curso:
+                    paralelos = x.paralelo+","+paralelos
+                paralelos = paralelos[:-1]
+                
+                array_materias = [str(materia.id_materia.id_materia) for materia in detalle]
                 for i in form:
-                    if i.name != 'materia':
-                        context[i.name] = i.value()
+                    if i.name == 'materia':
+                        context[i.name] = array_materias if array_materias else None
+
+                    elif i.name=='paralelos':
+                        context[i.name] = paralelos
+                    
+                    elif i.name =='anio_lectivo':
+                        context[i.name] = detalle_curso.first().id_anio_electivo_id
                     else:
-                        print(i.name,i.value())
-        return super().get(request, *args, **kwargs)
+                        context[i.name] = i.value()
+                
+                for materia_detalle in detalle:
+                    context[str(materia_detalle.id_materia.id_materia)] = [str(materia_detalle.total_horas)]
+        form = self.form_class(data=context, instance=obj)
+        return render(request, self.template_name, self.get_context_data(form=form))
     
+class CursoDetalle(TemplateView):
+    model = CabCurso
+    template_name = "curso/curso_detalle.html"
+    
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        curso = CabCurso.objects.filter(id_curso=pk).first()
+        paralelos = Aniolectivo_curso.objects.filter(id_curso=curso)
+        lista_final = []
+        for i in paralelos:
+            materias = DetalleMateriaCurso.objects.filter(id_matr_anio_lectivo_curso=i)
+            lista_materias = []
+            for m in materias:
+                lista_materias.append({
+                    "materia":m.id_materia.nombre,
+                    "horas":m.total_horas
+                })
+            lista_final.append(
+                {
+                    "paralelo":i.paralelo,
+                    "cupos":i.cupos,
+                    "materias":lista_materias
+                }
+            )
+        
+        context = {
+            "curso":curso,
+            "paralelos":lista_final
+        }
+        return render(request,self.template_name,self.get_context_data(form=context))
+
+
 class MateriasLista(PermissionRequiredMixin,ListView):
     model = Materia
     template_name = "materia/listar_materias.html"
@@ -200,3 +252,97 @@ class MateriasEditar(PermissionRequiredMixin,UpdateView):
         context['accion'] = 'Editar'
         return context
 
+
+class AsignacionMateriaProfesor(PermissionRequiredMixin,ListView):
+    model = Persona
+    template_name = "asignaciones/materia_profesor.html"
+    success_url = reverse_lazy('matr:materias')
+    permission_required = "matr.view_materia_profesor"
+    context_object_name = "obj"
+
+    def get_queryset(self):
+        return self.model.objects.filter(is_empleado=True)
+
+class AsignacionesCrear(PermissionRequiredMixin,TemplateView):
+    template_name = "asignaciones/materia_asignar.html"
+    permission_required = "matr.add_materia_profesor"
+
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        context  = {}
+        
+        cursos = CabCurso.objects.all()
+        if cursos:
+            paralelos = Aniolectivo_curso.objects.filter(id_curso__in=cursos,estado=True,id_anio_electivo__estado=True)
+            context['cursos'] = cursos
+            context['paralelos'] = paralelos
+        else:
+            context['msj'] = _("No existen cursos")
+        return render(request,self.template_name,context)
+
+
+
+def conultar_materias_paralelo(request):
+    """Consulta las meterias que pertenecen
+    a un paralelo
+
+    Args:
+        request ([POST]):
+        {
+            'id_paralelo':int
+        }
+
+    Returns:
+        [JsonResponse]: 
+        [
+            {
+                'materia':str,
+                'id':int,
+                'hora':int,
+                'curso':str,
+                'paralelo':str,
+                'id_curso':int
+            }
+        ]
+    """
+    lista = []
+    if request.method=='POST':
+        id_paralelo = request.POST['id_paralelo']
+        print(id_paralelo)
+        materias = DetalleMateriaCurso.objects.filter(
+            id_matr_anio_lectivo_curso=id_paralelo,estado=True
+            )
+        for i in materias:
+            lista.append(
+                {
+                    "materia":i.id_materia.nombre,
+                    "id":i.id_detalle_materia_curso,
+                    "hora":i.total_horas,
+                    "curso":i.id_matr_anio_lectivo_curso.id_curso.nombre,
+                    "paralelo":i.id_matr_anio_lectivo_curso.paralelo,
+                    "id_curso":i.id_matr_anio_lectivo_curso.id_curso.id_curso
+                }
+            )
+        if lista:
+            return JsonResponse({"res":lista,"val":True})
+        else:
+            return JsonResponse({"res":lista,"val":False})
+
+
+
+class AsignarHoraMateria(TemplateView):
+    template_name = 'asignaciones/hora_materia.html'
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        materia = DetalleMateriaCurso.objects.filter(id_detalle_materia_curso=pk)
+        return render(request,self.template_name,self.get_context_data(materia=materia))
+
+
+
+def guardar_horario_profesor(request):
+    if request.method=='POST':
+        lista = request.POST['lista']
+        print(lista)
+        

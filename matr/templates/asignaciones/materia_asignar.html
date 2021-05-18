@@ -1,0 +1,479 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}{% trans "Asignacion Materia profesor" %}{% endblock title_menu %}
+{% block title %}{% trans "Asignacion Materia profesor" %}{% endblock title %}
+{% block style %}
+
+<style>
+
+
+</style>
+
+{% endblock style %}
+
+
+
+
+{% block section %}
+{% block content %}
+<section>
+    <div class="row match-height">
+        <div class="row">
+            {% if msj %}
+            <div class="alert alert-warning">
+                <h4 class="alert-heading text-black">{% trans "Advertencia" %}</h4>
+                <p class="text-black">{{msj}}</p>
+            </div>
+            {% else %}
+            <div class="col-6">
+                    <select class="form-control" id="cursos">
+                    {% for i in cursos %}
+                    <option id="curso_{{i.id_curso}}">{{i}}</option>
+                    {% endfor %}
+                    </select>
+            </div>
+            <div class="col-6">
+                    <select class="form-control" id="paralelos">
+                    {% for i in paralelos %}
+                    <option id="{{i.id_matr_anioelectivo_curso}}" data-curso="curso_{{i.id_curso.id_curso}}">{{i.paralelo}}</option>
+                    {% endfor %}
+                    </select>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="col-6">
+                    <button type="button" id="btn-guardar" class="btn btn-primary">guardar</button>
+                </div>
+            </div>
+            <div id="board" class="row">
+                <div id="item-1" class="section-list p-3 row col-xs-12 mt-5" style="background-color: #e7edf3;" >
+                    <div class="col-12">
+                        <h4>{% trans "Materias" %}</h4>
+                        <hr>
+                    </div>
+                    <div class="row" id="content-materias">
+                        
+                    </div>
+                    
+                </div>
+                <div id="item-2" class="section-list col-xl-6 col-xs-12  p-3"  style="margin: 15px;background-color: #e7edf3;width: 250px">
+                    <h4>{% trans "Lunes" %}</h4>
+                    <hr>
+                    
+                </div>
+                <div id="item-3" class="section-list col-xl-6 col-xs-12  p-3"  style="margin: 15px;background-color: #e7edf3;width: 250px">
+                    <h4>{% trans "Martes" %}</h4>
+                    <hr>
+                </div>
+                <div id="item-4" class="section-list col-xl-6 col-xs-12  p-3"  style="margin: 15px;background-color: #e7edf3;width: 250px">
+                    <h4>{% trans "Miercoles" %}</h4>
+                    <hr>
+                </div>
+                <div id="item-5" class="section-list col-xl-6 col-xs-12  p-3" style="margin: 15px;background-color: #e7edf3;width: 250px">
+                    <h4>{% trans "Jueves" %}</h4>
+                    <hr>
+                </div>
+                <div id="item-6" class="section-list col-xl-6 col-xs-12  p-3" style="margin: 15px;background-color: #e7edf3;width: 250px">
+                    <h4>{% trans "Viernes" %}</h4>
+                    <hr>
+                </div>
+                <div id="item-7" class="section-list col-xl-6 col-xs-12  p-3" style="margin: 15px;background-color: #e7edf3;width: 250px">
+                    <h4>{% trans "Sábado" %}</h4>
+                    <hr>
+                </div>
+                <div id="item-8" class="section-list col-xl-6 col-xs-12  p-3" style="margin: 15px;background-color: #e7edf3;width: 250px">
+                    <h4>{% trans "Domingo" %}</h4>
+                    <hr>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+</section>
+
+{% endblock content %}
+{% endblock section %}
+{% block scripts %}
+<script src="{% static 'dist/assets/vendors/choices.js/choices.min.js' %} "></script>
+
+<script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
+<script>
+
+
+$(document).ready(function () {
+    $('#sidebar').removeClass('active')
+    const $cursos = $('#cursos');
+    const $paralelos = $('#paralelos');
+    
+    $('#cursos :selected').map((x,i)=>{
+        
+        $paralelos.find('option[data-curso="curso_' + i.id + '"]').show();
+    })
+    $('#paralelos :selected').map((x,i)=>{
+                consultar_materia(i.id)
+
+    })
+})
+const $cursos = $('#cursos');
+const $paralelos = $('#paralelos');
+    
+$cursos.change(function() {
+    $('#cursos :selected').map((x,i)=>{
+        $paralelos.val('')
+        $paralelos.find('option[data-curso]').hide();
+        $paralelos.find('option[data-curso="' + i.id + '"]').show();
+    })
+    
+});
+
+$paralelos.change(function () {
+    $('#paralelos :selected').map((x,i)=>{
+                consultar_materia(i.id)
+
+    })
+})
+
+
+    {% if form.non_field_errors %}
+    Swal.fire({
+        title: '',
+        html: '{{ form.non_field_errors }}',
+        icon: "error",
+        showCancelButton: false,
+        confirmButtonColor: '#1a2537',
+        confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+
+    {% endif %}
+    {% if form.errors %}
+    Swal.fire({
+        title: '',
+        html: '{{ form.errors }}',
+        icon: "error",
+        showCancelButton: false,
+        confirmButtonColor: '#1a2537',
+        confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+
+    {% endif %}
+    {% if messages %}
+    Swal.fire({
+        title: '',
+        html: '{% for i in messages %}{{i}}{% endfor %}',
+        icon: "success",
+        showCancelButton: false,
+        confirmButtonColor: '#1a2537',
+        confirmButtonText: '{% trans 'Aceptar' %}'
+            }).then(() => {
+            window.location.href = '{{url}}'
+        })
+
+    {% endif %}
+    var cards = document.querySelectorAll('.card-item');
+
+    for (var i = 0, n = cards.length; i < n; i++) {
+        var card = cards[i];
+        card.draggable = true;
+    };
+
+    var board = document.getElementById('board');
+
+    var hideMe;
+
+    board.onselectstart = function (e) {
+        e.preventDefault();
+    }
+
+    board.ondragstart = function (e) {
+        hideMe = e.target;
+        e.dataTransfer.setData('card-item', e.target.id);
+        e.dataTransfer.effectAllowed = 'move';
+    };
+
+    board.ondragend = function (e) {
+        e.target.style.visibility = 'visible';
+    };
+
+    var lastEneterd;
+
+    board.ondragenter = function (e) {
+        if (hideMe) {
+            hideMe.style.visibility = 'hidden';
+            hideMe = null;
+        }
+        lastEntered = e.target;
+        var section = closestWithClass(e.target, 'section-list');
+   
+        if (section) {
+            section.classList.add('droppable');
+            e.preventDefault(); 
+            return false;
+        }
+    };
+
+    board.ondragover = function (e) {
+
+        if (closestWithClass(e.target, 'section-list')) {
+            e.preventDefault();
+        }
+    };
+
+    board.ondragleave = function (e) {
+        // FF is raising this event on text nodes so only check elements.
+        if (e.target.nodeType === 1) {
+          
+            var section = closestWithClass(e.target, 'section-list');
+            if (section && !section.contains(lastEntered)) {
+                section.classList.remove('droppable');
+            }
+        }
+        lastEntered = null; // No need to keep this around.
+    };
+
+    board.ondrop = function (e) {
+        var section = closestWithClass(e.target, 'section-list');
+        var id = e.dataTransfer.getData('card-item');
+        if (id) {
+            var card = document.getElementById(id);
+            
+            if (card) {
+                if (section !== card.parentNode) {
+                    if (section.id==='item-1'){
+                        var content_materias = document.getElementById('content-materias')
+                        card.className = 'card-item col-xl-6 col-xs-12 mt-2'
+                        content_materias.appendChild(card);
+                        
+                    }else{
+                        card.className = 'card-item col-xl-12 col-xs-12 mt-2'
+                        card.style = 'border-left: #198754 5px solid;width: 230px; background-color: white'
+
+                        section.appendChild(card)
+                    }
+                }
+            } else {
+                alert('couldn\'t find card #' + id);
+            }
+        }
+        section.classList.remove('droppable');
+        e.preventDefault();
+    };
+
+    function closestWithClass(target, className) {
+        while (target) {
+            if (target.nodeType === 1 &&
+                target.classList.contains(className)) {
+                return target;
+            }
+            target = target.parentNode;
+        }
+        return null;
+    }
+
+
+    function consultar_materia(id_paralelo) {
+        var data = new FormData();
+        data.append('id_paralelo',id_paralelo)
+        $.ajax({
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                url: "{% url 'matr:consultar_materia' %}",
+                data: data,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    console.log(response)
+                    if(response.val){
+                        let i = 0;
+                        content_materias= document.getElementById('content-materias')
+                        content_materias.innerHTML = ''
+                        response.res.forEach(e => {
+                            content_materias.innerHTML += "<div class='mt-2 card-item col-xl-6 col-xs-12' id='paralelo_"+e.id+"' draggable='true' style='background-color: white;border-left: #5A8DEE 5px solid;width: 230px' data-id='"+e.id+"' data-in='"+i+"'>"+
+                                "<h5 class='card-header'>"+e.materia+"</h5>"+
+                                "<div class='card-body'>"+
+                                    "<h5 class='card-title'>"+e.curso+" "+e.paralelo+"</h5>"+
+                                    "<p class='card-text p-2'>Horas por semana <br> <i class='bi bi-clock'></i>"+e.hora+" horas</p>"+
+                                    "<form id='form_"+e.id+"'><div class='form-group'>"+
+                                        "<label>Hora inicio</label>"+
+                                        "<input type='time' class='form-control time' name='hora_inicio' id='hora_inicio_"+e.id+"_"+i+"' />"+
+                                    "</div>"+
+                                    "<div class='form-group'>"+
+                                        "<label>Hora fin</label>"+
+                                        "<input type='time' name='hora_fin' class='form-control time' id='hora_fin_"+e.id+"_"+i+"' />"+
+                                    "</div></form>"+
+                                "</div>"+
+                            "</div>";
+                            i++;
+
+
+                        });
+
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrow){
+                    console.log(textStatus, errorThrow);
+                    mensaje(errorThrow, 'red');
+                }
+            });
+    }
+
+    $('#btn-guardar').click(function () {
+        guardar()
+
+    })
+    function guardar() {
+        let lista_final = []
+        let lista_1 = document.getElementById('item-2').children
+        for (let index = 0; index <= lista_1.length-1; index++) {
+            if(lista_1[index].tagName=='DIV'){
+                id = lista_1[index].getAttribute('data-id')
+                i = lista_1[index].getAttribute('data-in')
+                hora_inicio = document.getElementById('hora_inicio_'+id+"_"+i)
+                hora_fin = document.getElementById('hora_fin_'+id+"_"+i)
+                if(hora_inicio && hora_fin){
+                    lista_final.push({
+                        id_detalle:id,
+                        hora_inicio:hora_inicio.value,
+                        hora_fin:hora_fin.value,
+                        dia:1
+                    })
+                }
+                
+            }
+        }
+        let lista_2 = document.getElementById('item-3').children
+        for (let index = 0; index <= lista_2.length-1; index++) {
+            if(lista_2[index].tagName=='DIV'){
+                id = lista_2[index].getAttribute('data-id')
+                i = lista_2[index].getAttribute('data-in')
+                hora_inicio = document.getElementById('hora_inicio_'+id+"_"+i)
+                hora_fin = document.getElementById('hora_fin_'+id+"_"+i)
+                if(hora_inicio && hora_fin){
+
+                lista_final.push({
+                    id_detalle:id,
+                    hora_inicio:hora_inicio.value,
+                    hora_fin:hora_fin.value,
+                    dia:2})
+                }
+            }
+        }
+        let lista_3 = document.getElementById('item-4').children
+        for (let index = 0; index <= lista_3.length-1; index++) {
+            if(lista_3[index].tagName=='DIV'){
+                id = lista_3[index].getAttribute('data-id')
+                i = lista_3[index].getAttribute('data-in')
+                hora_inicio = document.getElementById('hora_inicio_'+id+"_"+i)
+                hora_fin = document.getElementById('hora_fin_'+id+"_"+i)
+                if(hora_inicio && hora_fin){
+
+                lista_final.push({
+                    id_detalle:id,
+                    hora_inicio:hora_inicio.value,
+                    hora_fin:hora_fin.value,
+                    dia:3})
+                }
+            }
+        }
+        let lista_4 = document.getElementById('item-5').children
+        for (let index = 0; index <= lista_4.length-1; index++) {
+            if(lista_4[index].tagName=='DIV'){
+                id = lista_4[index].getAttribute('data-id')
+                i = lista_4[index].getAttribute('data-in')
+                hora_inicio = document.getElementById('hora_inicio_'+id+"_"+i)
+                hora_fin = document.getElementById('hora_fin_'+id+"_"+i)
+                if(hora_inicio && hora_fin){
+
+                lista_final.push({
+                    id_detalle:id,
+                    hora_inicio:hora_inicio.value,
+                    hora_fin:hora_fin.value,
+                    dia:4})
+                }
+            }
+        }
+        let lista_5 = document.getElementById('item-6').children
+        for (let index = 0; index <= lista_5.length-1; index++) {
+            if(lista_5[index].tagName=='DIV'){
+                id = lista_5[index].getAttribute('data-id')
+                i = lista_5[index].getAttribute('data-in')
+                hora_inicio = document.getElementById('hora_inicio_'+id+"_"+i)
+                hora_fin = document.getElementById('hora_fin_'+id+"_"+i)
+                if(hora_inicio && hora_fin){
+
+                lista_final.push({
+                    id_detalle:id,
+                    hora_inicio:hora_inicio.value,
+                    hora_fin:hora_fin.value,
+                    dia:5})
+                }
+            }
+        }
+        let lista_6 = document.getElementById('item-7').children
+        for (let index = 0; index <= lista_6.length-1; index++) {
+            if(lista_6[index].tagName=='DIV'){
+                id = lista_6[index].getAttribute('data-id')
+                i = lista_6[index].getAttribute('data-in')
+                hora_inicio = document.getElementById('hora_inicio_'+id+"_"+i)
+                hora_fin = document.getElementById('hora_fin_'+id+"_"+i)
+                if(hora_inicio && hora_fin){
+
+                lista_final.push({
+                    id_detalle:id,
+                    hora_inicio:hora_inicio.value,
+                    hora_fin:hora_fin.value,
+                    dia:6})
+                }
+            }
+        }
+        let lista_7 = document.getElementById('item-8').children
+        for (let index = 0; index <= lista_7.length-1; index++) {
+            if(lista_7[index].tagName=='DIV'){
+                id = lista_7[index].getAttribute('data-id')
+                i = lista_7[index].getAttribute('data-in')
+                hora_inicio = document.getElementById('hora_inicio_'+id+"_"+i)
+                hora_fin = document.getElementById('hora_fin_'+id+"_"+i)
+                if(hora_inicio && hora_fin){
+
+                lista_final.push({
+                    id_detalle:id,
+                    hora_inicio:hora_inicio.value,
+                    hora_fin:hora_fin.value,
+                    dia:7})
+                }
+            }
+        }
+        console.log(lista_final)
+        $.ajax({
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                url: "{% url 'matr:profesor_materia' %}",
+                data: {'lista':lista_final},
+                type: "POST",
+
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    console.log(response)
+                    
+
+                    
+                },
+                error: function(jqXHR, textStatus, errorThrow){
+                    console.log(textStatus, errorThrow);
+                    mensaje(errorThrow, 'red');
+                }
+            });
+    }
+</script>
+
+{% endblock scripts %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}Profesores{% endblock title_menu %}
+{% block styles %}
+<style>
+        .fontawesome-icons {
+            text-align: center;
+        }
+
+        article dl {
+            background-color: rgba(0, 0, 0, .02);
+            padding: 20px;
+        }
+
+        .fontawesome-icons .the-icon svg {
+            font-size: 24px;
+        }
+
+
+
+</style>
+<link href="{% static 'dist/assets/vendors/simple-datatables/style.css' %}" rel="stylesheet">
+
+{% endblock styles %}
+{% block title %}{% trans "Lista de Profesores" %}{% endblock title %}
+
+{% block content %}
+ <div class="d-flex flex-row-reverse bd-highlight">
+
+        
+    </div>
+<section class="section">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped" id="table1">
+                <thead>
+                <tr>
+                    <th>{% trans "N° Cédula" %}</th>
+                    <th>{% trans "Nombres" %}</th>
+                    <th>{% trans "Apellidos" %}</th>
+                    <th>{% trans "Genero" %}</th>
+                    <th>{% trans "Acción" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in obj %}
+                <tr>
+                    <td>{{i.identificacion}}</td>
+                    <td>{{i.nombres}}</td>
+                    <td>{{i.apellidos}}</td>
+                    <td>{{i.id_cfg_genero}}</td>
+                    <td align="center">
+                        <td>
+                            <a href="{% url 'matr:asignar_materia_profesor' i.id_persona %}" class="btn btn-warning rounded-pill"><i
+                                        class="bi bi-pencil-square"></i></a>
+                        </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade text-left modal-borderless" id="mostrar_modal" role="dialog">
+    </div>
+</section>
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'dist/assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
+<script>
+// Simple Datatable
+       let table1 = document.querySelector('#table1');
+       let dataTable = new simpleDatatables.DataTable(table1);
+
+</script>
+
+{% endblock scripts %}

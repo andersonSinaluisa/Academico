@@ -70,7 +70,7 @@ class Materia(models.Model):
 class DetalleMateriaCurso(models.Model):
     id_detalle_materia_curso = models.AutoField(primary_key=True)
     id_matr_anio_lectivo_curso = models.ForeignKey(Aniolectivo_curso, on_delete=models.CASCADE,blank=False, null=False, related_name="fk_detallemateriacurso_aniolectivocurso",db_column='id_matr_aniolectivo_curso')
-    total_horas = models.IntegerField(null=False, blank=False, default=1)
+    total_horas = models.DecimalField(decimal_places=2,max_digits=4)
     estado = models.BooleanField(default=True)
     id_materia = models.ForeignKey(Materia, blank=False,default=24, related_name="fk_detallemateriacurso_materias",db_column='id_materia', on_delete=models.CASCADE)
     class Meta:
@@ -105,11 +105,13 @@ class MatriculacionEstudiante(models.Model):
 class Materia_profesor(models.Model):
     id_materia_profesor = models.AutoField(primary_key=True)
     id_empleado = models.ForeignKey(Persona, on_delete=models.CASCADE, blank=False, null=False,related_name='fk_materiaprof_empleado',db_column='id_empleado')
-    id_detalle_materia_curso = models.ManyToManyField(DetalleMateriaCurso,  db_table="matr_profesor_materiacurso",related_name="fk_materia_profesor")
+    id_detalle_materia_curso = models.ForeignKey(DetalleMateriaCurso,on_delete=models.CASCADE,related_name="fk_materia_profesor",null=False,blank=False)
+    hora_inicio = models.TimeField(verbose_name=_("Hora de inicio"))
+    hora_fin = models.TimeField(verbose_name=_("Hora fin"))
+    dia_semana = models.IntegerField()
+
+    
     class Meta:
         verbose_name = 'Materia profesor'
         verbose_name_plural = 'Materia profesores'
 
-
-    def __str__(self):
-        return self.id_empleado.id_persona.nombres+" "+self.id_empleado.id_persona.apellidos

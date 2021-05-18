@@ -30,7 +30,15 @@ class PersonaForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control',
             })
-            self.fields[field].required=False
+            self.fields[field].required= False
+        self.fields['nombres'].required= True
+        self.fields['apellidos'].required= True
+        self.fields['identificacion'].required= True
+        self.fields['fecha_de_nacimiento'].required= True
+        self.fields['lugar_nacimiento'].required= True
+        self.fields['direccion'].required= True
+        self.fields['telefono'].required= True
+        self.fields['celular' ].required= True
         self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Estudiantes',required=False)
         self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado',required=False)
         self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante',required=False)
@@ -76,7 +84,8 @@ class PersonaEditForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
-        
+            print(self.fields[field].required)
+            self.fields[field].required = True
         self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Estudiantes',required=False)
         self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Empleado',required=False)
         self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-input'}),label='Es Representante',required=False)

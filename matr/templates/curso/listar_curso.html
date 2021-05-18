@@ -56,11 +56,12 @@
                             <td>{{i.nombre}}</td>
                             <td>{{i.id_cfg_modalidad}}</td>
                             <td>{{i.id_cfg_formacion}}</td>
-                            <td>{{i.cupos}}</td>
+                            <td>{{i.cupo}}</td>
                             <td>
                             {% if perms.matr.change_materia %}
                                 <a href="{% url 'matr:editar_curso' i.id_curso %}" class="btn btn-warning rounded-pill"><i
                                             class="bi bi-pencil-square"></i></a>
+                                <a href="{% url 'matr:curso_ver' i.id_curso %}" class="btn btn-info rounded-pill"><i class="bi bi-info-circle"></i></a>
                             {% endif %}
                             </td>
                         </tr>

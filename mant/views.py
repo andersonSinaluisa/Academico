@@ -37,6 +37,9 @@ class PersonaCrear(PermissionRequiredMixin, CreateView):
         context = super(PersonaCrear, self).get_context_data(**kwargs)
         context['url'] = self.success_url
         context['accion'] = 'Crear'
+        rol = Group.objects.all()
+        if not rol:
+            context['alert'] = _("Se debe crear primero un rol")
         return context
 
     @staticmethod

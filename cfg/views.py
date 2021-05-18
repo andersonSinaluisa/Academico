@@ -17,9 +17,14 @@ def pag_404_not_found():
     response.status_code = 404
     return response
 
+def editar_perfil(request):
+    return render(request,'perfil/editar_perfil.html')
+
 
 def login(request):
     context = {}
+    if request.user.is_authenticated:
+        return redirect(reverse_lazy('cfg:inicio'))
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -152,6 +157,9 @@ class MenuCrear(PermissionRequiredMixin, CreateView):
         context = super(MenuCrear, self).get_context_data(**kwargs)
         context['url'] = self.success_url
         context['accion'] = 'Crear'
+        modulos = Modulo.objects.filter(estado=True)
+        if not modulos:
+            context['alert'] = _("Para crear un menú se deben crear los modulos")
         return context
 
     def post(self, request, *args, **kwargs):

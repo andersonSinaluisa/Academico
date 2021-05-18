@@ -5,7 +5,6 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group, Permission
 from django.db.models import Q
 
-
 class ModuloForm(forms.ModelForm):
     """formulario para crear modulo"""
 
@@ -92,10 +91,43 @@ class MenuForm(forms.ModelForm):
         self.fields['estado'].widget.attrs.update({
             'class': 'form-check-input'
         })
-        self.fields['url_menu'].widget.attrs.update({
-            'placeholder': 'Ejemplo: /roles/'
-        })
-
+        
+        from cfg.urls import urlpatterns as url_cfg
+        from adm.urls import urlpatterns as url_adm
+        from mant.urls import urlpatterns as url_mant
+        from reg.urls import urlpatterns as url_reg
+        from rep.urls import urlpatterns as url_rep
+        from matr.urls import urlpatterns as url_matr
+        
+        lista_urls = []
+        for i in url_cfg:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_matr:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_adm:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_mant:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_reg:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_rep:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        self.fields['url_menu'] = forms.ChoiceField(
+            choices=lista_urls,
+            widget=forms.Select(attrs={'class':'form-control'})
+            )
 
 class MenuEditForm(forms.ModelForm):
     class Meta:
@@ -117,6 +149,42 @@ class MenuEditForm(forms.ModelForm):
             'class': 'form-check-input'
         })
 
+        from cfg.urls import urlpatterns as url_cfg
+        from adm.urls import urlpatterns as url_adm
+        from mant.urls import urlpatterns as url_mant
+        from matr.urls import urlpatterns as url_matr
+        from reg.urls import urlpatterns as url_reg
+        from rep.urls import urlpatterns as url_rep
+        lista_urls = []
+        for i in url_cfg:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_matr:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_adm:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_mant:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_reg:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        for i in url_rep:
+            var = '/'+str(i.pattern)
+            if var[-1] == '/' and 'crear' not in var:
+                lista_urls.append((var,var))
+        self.fields['url_menu'] = forms.ChoiceField(
+            choices=lista_urls,
+            widget=forms.Select(attrs={'class':'form-control'})
+            )
+        
 
 class GrupoPermisoEditForm(forms.ModelForm):
     class Meta:

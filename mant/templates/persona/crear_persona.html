@@ -9,6 +9,12 @@
 <section class="section">
 
     <div class="row">
+                    {% if alert %}
+                        <div class="alert alert-warning">
+                            <h4 class="alert-heading text-black">{% trans "Advertencia" %}</h4>
+                            <p class="text-black">{{alert}}</p>
+                        </div>
+                    {% endif %}
         <div class="col-md-12">
             <form class="card" method="POST" enctype='multipart/form-data' autocomplete="off">
                 {% csrf_token %}
@@ -500,7 +506,18 @@
             item_rep.style = "display:none;"
             item_fam.style = "display:none;"
             tab_fam.style = "display: none;"
-            
+            $("#home_41 input").each(function () {
+                this.required = false
+            })
+             $("#home_41 select").each(function () {
+                this.required = false
+            })
+            $("#home_61 input").each(function () {
+                this.required = false
+            })
+            $("#home_61 select").each(function () {
+                this.required = false
+            })
         }else{
             let item_rep = document.getElementById('item-rep');
             let item_fam = document.getElementById('item-familiares');
@@ -513,6 +530,18 @@
             tab_fam.style = "";
             block_estudiante.style = ""
             block_empleado.style = ""
+            $("#home_41 input").each(function () {
+                this.required = true
+            })
+             $("#home_41 select").each(function () {
+                this.required = true
+            })
+            $("#home_61 input").each(function () {
+                this.required = true
+            })
+            $("#home_61 select").each(function () {
+                this.required = true
+            })
 
         }
 

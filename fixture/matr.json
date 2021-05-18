@@ -1,0 +1,131 @@
+[
+    {
+        "model": "matr.aniolectivo",
+        "pk": 1,
+        "fields": {
+            "anio": 2021,
+            "ciclo": 1,
+            "fecha_incio_ciclo": "2021-04-28",
+            "fecha_fin_ciclo": "2021-05-11",
+            "estado": false
+        }
+    },
+    {
+        "model": "matr.aniolectivo",
+        "pk": 2,
+        "fields": {
+            "anio": 2021,
+            "ciclo": 1,
+            "fecha_incio_ciclo": "2021-05-06",
+            "fecha_fin_ciclo": "2021-05-05",
+            "estado": true
+        }
+    },
+    {
+        "model": "matr.cabcurso",
+        "pk": 1,
+        "fields": {
+            "codigo": "001",
+            "nombre": "Primero",
+            "id_cfg_regimen": 1764,
+            "id_cfg_modalidad": 1758,
+            "id_cfg_tipo_edu": 1761,
+            "id_cfg_formacion": 79,
+            "id_cfg_jornada": 40,
+            "cupo": 45
+        }
+    },
+    {
+        "model": "matr.cabcurso",
+        "pk": 2,
+        "fields": {
+            "codigo": "002",
+            "nombre": "Segundo",
+            "id_cfg_regimen": 1764,
+            "id_cfg_modalidad": 1757,
+            "id_cfg_tipo_edu": 1761,
+            "id_cfg_formacion": 79,
+            "id_cfg_jornada": 41,
+            "cupo": 45
+        }
+    },
+    {
+        "model": "matr.aniolectivo_curso",
+        "pk": 1,
+        "fields": {
+            "id_anio_electivo": 2,
+            "id_curso": 1,
+            "paralelo": "A",
+            "cupos": 45,
+            "estado": true
+        }
+    },
+    {
+        "model": "matr.aniolectivo_curso",
+        "pk": 2,
+        "fields": {
+            "id_anio_electivo": 2,
+            "id_curso": 1,
+            "paralelo": "B",
+            "cupos": 45,
+            "estado": true
+        }
+    },
+    {
+        "model": "matr.aniolectivo_curso",
+        "pk": 3,
+        "fields": {
+            "id_anio_electivo": 2,
+            "id_curso": 1,
+            "paralelo": "C",
+            "cupos": 45,
+            "estado": true
+        }
+    },
+    {
+        "model": "matr.aniolectivo_curso",
+        "pk": 4,
+        "fields": {
+            "id_anio_electivo": 2,
+            "id_curso": 2,
+            "paralelo": "A",
+            "cupos": 45,
+            "estado": true
+        }
+    },
+    {
+        "model": "matr.aniolectivo_curso",
+        "pk": 5,
+        "fields": {
+            "id_anio_electivo": 2,
+            "id_curso": 2,
+            "paralelo": "B",
+            "cupos": 45,
+            "estado": true
+        }
+    },
+    {
+        "model": "matr.materia",
+        "pk": 1,
+        "fields": {
+            "nombre": "Matematicas",
+            "estado": true
+        }
+    },
+    {
+        "model": "matr.materia",
+        "pk": 2,
+        "fields": {
+            "nombre": "Lenguaje",
+            "estado": true
+        }
+    },
+    {
+        "model": "matr.materia",
+        "pk": 3,
+        "fields": {
+            "nombre": "Ciencias Naturales",
+            "estado": true
+        }
+    }
+]

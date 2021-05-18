@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}{% endblock title_menu %}
+{% block title %}{{form.curso.nombre}}{% endblock title %}
+{% block styles %}
+
+
+{% endblock styles %}
+{% block content %}
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-6">
+                            <label><b>{% trans "Jornada: " %}</b></label>
+                            <p>{{form.curso.id_cfg_jornada}}<p>
+                        </div>
+                        <div class="col-6">
+                            <label><b>{% trans "Cupos por paralelo:" %}</b></label>
+                            <p>{{form.curso.cupo}}</p>
+                        </div>
+                        <div class="col-6">
+                            <label><b>{% trans "Regimen:  " %}</b></label>
+                            <p>{{form.curso.id_cfg_regimen}}<p>
+                        </div>
+                        <div class="col-6">
+                            <label><b>{% trans "Modalidad:" %}</b></label>
+                            <p>{{form.curso.id_cfg_modalidad}}</p>
+                        </div>
+                        <div class="col-6">
+                            <label><b>{% trans "Tipo Educación:" %}</b></label>
+                            <p>{{form.curso.id_cfg_tipo_edu}}</p>
+                        </div>
+                        <div class="col-6">
+                            <label><b>{% trans "Formación:" %}</b></label>
+                            <p>{{form.curso.id_cfg_formacion}}</p>
+                        </div>
+                    </div>    
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                            <a class="btn btn-warning rounded-pill" href="{% url 'matr:cursos' %}">{% trans "Volver" %}</a>
+                            <table class="table table-striped" id="table1">
+                                <thead>
+                                    <tr>
+                                        <th>{% trans "Paralelo" %}</th>
+                                        <th>{% trans "Cupos" %}</th>
+                                        <th>{% trans "Materias / horas Semanales" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in form.paralelos %}
+                                    <tr>
+                                        <td>
+                                            {{i.paralelo}}
+                                        </td>
+                                        <td>
+                                            {{i.cupos}}
+                                        </td>
+                                        <td>
+                                            {% for m in i.materias %}
+                                            {{m.materia}}  
+                                            <span class="badge bg-info badge-pill badge-round ml-1">{{m.horas}}</span>
+                                            <br>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'dist/assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
+ <script>
+ // Simple Datatable
+        let table1 = document.querySelector('#table1');
+        let dataTable = new simpleDatatables.DataTable(table1);
+ 
+ </script>
+ {% endblock scripts %}

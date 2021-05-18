@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title_menu %}{% endblock title_menu %}
+{% block title %}{% trans "Configuraciones del perfil" %}{% endblock title %}
+
+{% block content %}
+<section id="page-account-settings">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <!-- left menu section -->
+                <div class="col-md-3 mb-2 mb-md-0 pills-stacked">
+                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                        aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-general-tab" data-bs-toggle="pill"
+                            href="#v-pills-general" role="tab" aria-controls="v-pills-general"
+                            aria-selected="true">General</a>
+                        <a class="nav-link" id="v-pills-change-password-tab" data-bs-toggle="pill"
+                            href="#v-pills-change-password" role="tab" aria-controls="v-pills-change-password"
+                            aria-selected="false">Change Password</a>
+                        <a class="nav-link" id="v-pills-info-tab" data-bs-toggle="pill"
+                            href="#v-pills-info" role="tab" aria-controls="v-pills-info"
+                            aria-selected="false">Info</a>
+
+                       
+                        <a class="nav-link" id="v-pills-notification-tab" data-bs-toggle="pill"
+                            href="#v-pills-notification" role="tab" aria-controls="v-pills-notification"
+                            aria-selected="false">Notifications</a>
+                    </div>
+                </div>
+                <!-- right content section -->
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content">
+
+                                <div class="tab-pane fade show active" id="v-pills-general" role="tabpanel"
+                                                    aria-labelledby="v-pills-general-tab">
+                                    <div class="media row">
+                                        <a href="javascript: void(0);" class="col-lg-2 col-xs-12">
+                                            <img src="{% static 'dist/assets/images/faces/1.jpg' %} "
+                                                class="rounded mr-75" alt="profile image" height="64" width="64">
+                                        </a>
+                                        <div class="media-body mt-25 col col-xs-12">
+                                            <div
+                                                class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
+                                                <label for="select-files" class="btn btn-sm btn-primary ml-50 mb-50 mb-sm-0">
+                                                  <span>{% trans "Subir foto" %}</span>
+                                                  <input id="select-files" type="file" hidden>
+                                                </label>
+                                                <button class="btn btn-sm btn-secondary ml-50">Reset</button>
+                                            </div>
+                                            <p class="text-muted ml-1 mt-50"><small>Allowed JPG, GIF or PNG. Max
+                                                    size of
+                                                    800kB</small></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <form class="validate-form">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <label>Usuario</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Username" value="{{user.username}}" name="username" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <label>{% trans "Nombre" %}</label>
+                                                        <input type="text" class="form-control" placeholder="Nombre" name="name" value="{{user.first_name}} {{user.last_name}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <label>{% trans "Correo" %}</label>
+                                                        <input type="email" class="form-control" placeholder="Email"
+                                                            value="{{user.email}}" name="email">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="alert bg-light-warning alert-dismissible mb-2"
+                                                    role="alert">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                                    <p class="mb-0">
+                                                        Your email is not confirmed. Please check your inbox.
+                                                    </p>
+                                                    <a href="javascript: void(0);">Resend confirmation</a>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+                                                <button type="submit" class="btn btn-primary glow mr-sm-1 mb-1">Save
+                                                    changes</button>
+                                                <button type="reset" class="btn btn-light mb-1">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-change-password" role="tabpanel"
+                                                    aria-labelledby="v-pills-change-password-tab">
+                                    <form class="validate-form">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <label>Old Password</label>
+                                                        <input type="password" class="form-control"
+                                                            placeholder="Old Password"
+                                                            name="password">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <label>New Password</label>
+                                                        <input type="password" class="form-control"
+                                                            placeholder="New Password"
+                                                            id="account-new-password"
+                                                            name="new-password">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <label>Retype new Password</label>
+                                                        <input type="password"
+                                                            class="form-control"
+                                                            data-validation-match-match="password"
+                                                            placeholder="New Password"
+                                                            name="confirm-new-password">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+                                                <button type="submit" class="btn btn-primary glow mr-sm-1 mb-1">Save
+                                                    changes</button>
+                                                <button type="reset" class="btn btn-light mb-1">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-info" role="tabpanel"
+                                                    aria-labelledby="v-pills-info-tab">
+                                    <form class="validate-form">
+                                        <div class="row">
+                                            
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <label>{% trans "Fecha de nacimiento" %}</label>
+                                                        <input type="text" class="form-control birthdate-picker"
+                                                            placeholder="Birth date"
+                                                            name="dob">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <label>{% trans "Telefono" %}</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Phone number" value="(+656) 254 2568"
+                                                            name="phone">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+                                                <button type="submit" class="btn btn-primary glow mr-sm-1 mb-1">{% trans "Guardar" %}</button>
+                                                <button type="reset" class="btn btn-light mb-1">{% trans "Cancelar" %}</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                               
+                                
+                                <div class="tab-pane fade" id="v-pills-notification" role="tabpanel"
+                                                    aria-labelledby="v-pills-notification-tab">
+                                    <div class="row">
+                                        <h6 class="m-1">Activity</h6>
+                                        <div class="col-12 mb-1">
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input" checked
+                                                    id="accountSwitch1">
+                                                <label class="custom-control-label mr-1"
+                                                    for="accountSwitch1"></label>
+                                                <span class="switch-label w-100">Email me when someone comments
+                                                    onmy
+                                                    article</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-1">
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input" checked
+                                                    id="accountSwitch2">
+                                                <label class="custom-control-label mr-1"
+                                                    for="accountSwitch2"></label>
+                                                <span class="switch-label w-100">Email me when someone answers on
+                                                    my
+                                                    form</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-1">
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="accountSwitch3">
+                                                <label class="custom-control-label mr-1"
+                                                    for="accountSwitch3"></label>
+                                                <span class="switch-label w-100">Email me hen someone follows
+                                                    me</span>
+                                            </div>
+                                        </div>
+                                        <h6 class="m-1">Application</h6>
+                                        <div class="col-12 mb-1">
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input" checked
+                                                    id="accountSwitch4">
+                                                <label class="custom-control-label mr-1"
+                                                    for="accountSwitch4"></label>
+                                                <span class="switch-label w-100">News and announcements</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-1">
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="accountSwitch5">
+                                                <label class="custom-control-label mr-1"
+                                                    for="accountSwitch5"></label>
+                                                <span class="switch-label w-100">Weekly product updates</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-1">
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input" checked
+                                                    id="accountSwitch6">
+                                                <label class="custom-control-label mr-1"
+                                                    for="accountSwitch6"></label>
+                                                <span class="switch-label w-100">Weekly blog digest</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+                                            <button type="submit" class="btn btn-primary glow mr-sm-1 mb-1">Save
+                                                changes</button>
+                                            <button type="reset" class="btn btn-light mb-1">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+ {% block scripts %}
+     <script src="{% static 'dist/assets/vendors/sweetalert2/sweetalert2.all.min.js'%}"></script>
+
+ <script>
+{% if form.non_field_errors  %}
+    Swal.fire({
+                title: '',
+                html: '{{ form.non_field_errors }}',
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+    
+    {% endif %}
+     {% if form.errors  %}
+    Swal.fire({
+                title: '',
+                html: '{{ form.errors }}',
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            })
+    
+    {% endif %}
+    {% if messages %}
+    Swal.fire({
+                title: '',
+                html: '{% for i in messages %}{{i}}{% endfor %}',
+                icon: "success",
+                showCancelButton: false,
+                confirmButtonColor: '#1a2537',
+                confirmButtonText: '{% trans 'Aceptar' %}'
+            }).then(()=>{
+                window.location.href = '{{url}}'
+            })
+    
+    {% endif %}
+ </script>
+ 
+ {% endblock scripts %}

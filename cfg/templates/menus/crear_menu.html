@@ -13,6 +13,12 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body">
+                    {% if alert %}
+                        <div class="alert alert-warning">
+                            <h4 class="alert-heading text-black">{% trans "Advertencia" %}</h4>
+                            <p class="text-black">{{alert}}</p>
+                        </div>
+                    {% endif %}
                         <form class="form" method="POST" autocomplete="off">
                             {% csrf_token %}
                             <div class="row">

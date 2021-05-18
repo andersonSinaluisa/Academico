@@ -1,5 +1,6 @@
 from django import forms
-from matr.models import AnioLectivo, CabCurso, Materia, DetalleMateriaCurso, Aniolectivo_curso
+from matr.models import AnioLectivo, CabCurso, Materia,\
+    DetalleMateriaCurso, Aniolectivo_curso, Materia_profesor
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from mant.models import GenrGeneral
@@ -130,11 +131,12 @@ class CabCursoEditarForm(forms.ModelForm):
 
     def clean(self):
         paralelo = self.data['paralelos']
-        if len(paralelo)>1:
-            if paralelo.find(",") ==-1:
-                raise ValidationError(
-                    _('Los paralelos deben ser separados por comas')
-                )
+        if paralelo:
+            if len(paralelo)>1:
+                if paralelo.find(",") ==-1:
+                    raise ValidationError(
+                        _('Los paralelos deben ser separados por comas')
+                    )
         return super().clean()
 
 
@@ -188,3 +190,41 @@ class MateriaCrearForm(forms.ModelForm):
                 })
         self.fields['estado'].label = _("Activo")
 
+
+
+class MateriaProfesorForm(forms.Form):
+    
+
+    def __init__(self, *args, **kwargs):
+        """inicializa los widgets para poner class form-control
+        en los input"""
+
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+        self.fields['cursos'] = forms.ChoiceField(
+            choices=[(i.id_curso,i.nombre)for i in CabCurso.objects.all()],
+            widget=forms.Select())
+        self.fields['paralelos'] = forms.ChoiceField(
+            choices=[
+                (i.id_matr_anioelectivo_curso,i.paralelo) 
+                for i in Aniolectivo_curso.objects.filter(
+            estado=True,id_anio_electivo__estado=True
+            )],widget=forms.Select())
+        
+        self.fields['materias'] = forms.MultipleChoiceField(
+            choices=[(i.id_detalle_materia_curso,i.id_materia.nombre) 
+            for i in DetalleMateriaCurso.objects.filter(
+            estado=True,
+            id_matr_anio_lectivo_curso__estado=True)])
+        
+        for field in iter(self.fields):
+            if field != 'materias':
+                self.fields[field].widget.attrs.update({
+                        'class': 'form-control'
+                })
+            else:
+                self.fields[field].widget.attrs.update({
+                        
+                })
+
+                
