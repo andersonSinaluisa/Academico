@@ -13,7 +13,7 @@ from django.contrib import messages
 from mant.models import GenrGeneral
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
-
+import json
 
 # Create your views here.
 class AnioLectivoCrear(PermissionRequiredMixin,CreateView):
@@ -343,6 +343,9 @@ class AsignarHoraMateria(TemplateView):
 
 def guardar_horario_profesor(request):
     if request.method=='POST':
-        lista = request.POST['lista']
-        print(lista)
+        lista = request.POST.getlist('lista[]')
+        datos_list = json.loads(lista[0])
+        for i in datos_list:
+            print(i)
+        return JsonResponse({})
         

@@ -290,7 +290,7 @@ $paralelos.change(function () {
                 success: function(response){
                     console.log(response)
                     if(response.val){
-                        let i = 0;
+                        let i = Math.floor(Math.random() * 100);
                         content_materias= document.getElementById('content-materias')
                         content_materias.innerHTML = ''
                         response.res.forEach(e => {
@@ -455,13 +455,9 @@ $paralelos.change(function () {
                     "X-CSRFToken": "{{ csrf_token }}"
                 },
                 url: "{% url 'matr:profesor_materia' %}",
-                data: {'lista':lista_final},
+                data: {"lista[]": JSON.stringify(lista_final)},
                 type: "POST",
-
-                beforeSend: function(){
-                },
-                complete: function(){
-                },
+                dataType: "json",
                 success: function(response){
                     console.log(response)
                     
