@@ -51,10 +51,10 @@
                     <td>{{i.apellidos}}</td>
                     <td>{{i.id_cfg_genero}}</td>
                     <td align="center">
-                        <td>
-                            <a href="{% url 'matr:asignar_materia_profesor' i.id_persona %}" class="btn btn-warning rounded-pill"><i
-                                        class="bi bi-pencil-square"></i></a>
-                        </td>
+                        <a href="{% url 'matr:asignar_materia_profesor' i.id_persona %}"
+                           class="btn btn-warning rounded-pill"><i
+                                class="bi bi-pencil-square"></i></a>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>

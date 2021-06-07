@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth import login as do_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.models import Permission, Group
 from django.shortcuts import render, redirect, render_to_response
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext as _
@@ -16,6 +15,7 @@ def pag_404_not_found():
     response = render_to_response("../templates/page_404.html")
     response.status_code = 404
     return response
+
 
 def editar_perfil(request):
     return render(request,'perfil/editar_perfil.html')
