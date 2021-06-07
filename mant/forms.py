@@ -43,7 +43,7 @@ class PersonaForm(forms.ModelForm):
         self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), label='Es Empleado', required=False)
         self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), label='Es Representante', required=False)
         self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
-        self.fields['fecha_de_nacimiento'] = forms.DateTimeField(widget=forms.DateInput(attrs={'class':'form-control', 'type': 'date'}))
+        self.fields['fecha_de_nacimiento'] = forms.DateTimeField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
         self.fields['id_cfg_genero'].queryset = GenrGeneral.objects.filter(tipo='GEN')
         self.fields['id_cfg_pais'].queryset = GenrGeneral.objects.filter(tipo='TPA')
         self.fields['id_cfg_estado_civil'].queryset = GenrGeneral.objects.filter(tipo='EST')
@@ -58,7 +58,6 @@ class PersonaForm(forms.ModelForm):
         self.fields['id_cfg_estado_civil'].queryset = GenrGeneral.objects.filter(tipo='EST')
         self.fields['id_cfg_estado_laboralp'].queryset = GenrGeneral.objects.filter(tipo='ESTL')
         self.fields['id_cfg_estado_laboralm'].queryset = GenrGeneral.objects.filter(tipo='ESTL')
-
 
 
 class PersonaEditForm(forms.ModelForm):
@@ -87,10 +86,9 @@ class PersonaEditForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
-            print(self.fields[field].required)
             self.fields[field].required = True
         self.fields['is_estudiante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), label='Es Estudiantes', required=False)
-        self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),label='Es Empleado', required=False)
+        self.fields['is_empleado'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), label='Es Empleado', required=False)
         self.fields['is_representante'] = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), label='Es Representante', required=False)
         self.fields['id_cfg_tipo_identificacion'].queryset = GenrGeneral.objects.filter(tipo='TID')
 
