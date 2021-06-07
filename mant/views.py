@@ -114,7 +114,6 @@ class PersonaEditar(PermissionRequiredMixin, UpdateView):
         context['accion'] = 'Editar'
         return context
 
-    
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
         self.object = self.get_object

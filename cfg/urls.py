@@ -20,5 +20,5 @@ urlpatterns = [
     path('crear-general/', GeneralCrear.as_view(), name='crear_general'),
     path('editar-general/<int:pk>', GeneralEditar.as_view(), name='editar_general'),
     path('eliminar-general/<int:pk>', GeneralEliminar.as_view(), name='eliminar_general'),
-    path("editar-perfil/",editar_perfil,name="editar_perfil")
+    path("editar-perfil/", editar_perfil, name="editar_perfil")
 ]
