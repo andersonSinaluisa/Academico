@@ -1,0 +1,13 @@
+Matriculación
+    Cursos
+        -No trae las horas semanales de las materias al momento de editar
+        -Una vez declarada las horas semanales de la materia no se pueden cambiar
+    Materias
+        -¿Debería tener la opción de eliminar? A pesar de que veo la opcion de inactivo, activo
+    Año Lectivo
+        -No debería permitir dos años lectivos activos
+    Asignacion Materia - Profesor
+        -Debería tener una validación como formulario que si no tengo todos los campos, decirle que faltan materias o permitir guardar ya sea con una sola materia
+        (en el horaria hay todos los dias, fines de semana no hay clases y no me permite guardar por dejar el fin de semana libre) y el boton de guardar deberia decir
+        "Guardar" no "guardar" cancer leerlo con la minuscula la comienzo.
+    Consultar materia y profesor materia da error
