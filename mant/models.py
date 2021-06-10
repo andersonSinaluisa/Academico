@@ -105,6 +105,9 @@ class Persona(models.Model):
     is_estudiante = models.BooleanField(null=True, verbose_name=_('Es Estudiante'))
     is_empleado = models.BooleanField(null=True, verbose_name=_('Es Empleado'))
 
+    class Meta:
+        ordering = ['nombres']
+
     def __str__(self):
         """función que retorna el nombre de
         un objecto Modulo
