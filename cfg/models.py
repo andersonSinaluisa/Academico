@@ -43,6 +43,7 @@ class Menu(models.Model):
     class Meta:
         verbose_name = 'Menu'
         verbose_name_plural = 'Menus'
+        ordering = ['nombre']
 
     def __str__(self):
         """función que retorna el nombre de
