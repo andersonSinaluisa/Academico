@@ -449,13 +449,12 @@ $paralelos.change(function () {
                 }
             }
         }
-        console.log(lista_final)
         $.ajax({
                 headers: {
                     "X-CSRFToken": "{{ csrf_token }}"
                 },
                 url: "{% url 'matr:profesor_materia' %}",
-                data: {"lista[]": JSON.stringify(lista_final)},
+                data: {"lista[]": JSON.stringify(lista_final),"pk":{{pk}}},
                 type: "POST",
                 dataType: "json",
                 success: function(response){

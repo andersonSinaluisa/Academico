@@ -14,9 +14,10 @@ from mant.models import GenrGeneral
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 import json
-
+from datetime import datetime
 # Create your views here.
 class AnioLectivoCrear(PermissionRequiredMixin,CreateView):
+    """Creacion de anio lectivo"""
     model = AnioLectivo
     form_class = AnioLectivoCrearForm
     permission_required = "matr.add_aniolectivo"
@@ -25,6 +26,8 @@ class AnioLectivoCrear(PermissionRequiredMixin,CreateView):
     success_url = reverse_lazy('matr:anios_lectivo')
 
     def get_context_data(self, **kwargs):
+        """elementos adicionales para renderiza, se define la accion
+        para usar el mismo template"""
         context = super(AnioLectivoCrear,self).get_context_data(**kwargs)
         context['url'] = self.success_url
         context['accion'] = 'Crear'
@@ -110,7 +113,7 @@ class CabCursoCrear(PermissionRequiredMixin,CreateView):
                         )
                     if curso_detalle:
                         for valor in form.cleaned_data['materia']:
-                            hora = int(dict_data[valor][0])
+                            hora = dict_data[valor][0]
                             DetalleMateriaCurso.objects.create(
                                 id_matr_anio_lectivo_curso=curso_detalle,
                                 total_horas=hora,
@@ -271,7 +274,6 @@ class AsignacionesCrear(PermissionRequiredMixin,TemplateView):
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
         context  = {}
-        
         cursos = CabCurso.objects.all()
         if cursos:
             paralelos = Aniolectivo_curso.objects.filter(id_curso__in=cursos,estado=True,id_anio_electivo__estado=True)
@@ -279,6 +281,7 @@ class AsignacionesCrear(PermissionRequiredMixin,TemplateView):
             context['paralelos'] = paralelos
         else:
             context['msj'] = _("No existen cursos")
+        context['pk']=pk
         return render(request,self.template_name,context)
 
 
@@ -342,10 +345,37 @@ class AsignarHoraMateria(TemplateView):
 
 
 def guardar_horario_profesor(request):
-    if request.method=='POST':
+    mensaje = ""
+    if request.method=='POST': 
         lista = request.POST.getlist('lista[]')
+        pk = request.POST.get('pk')
         datos_list = json.loads(lista[0])
-        for i in datos_list:
-            print(i)
+        if len(datos_list) > 0:
+            for i in datos_list:
+                id = i['id_detalle']
+                detalle = DetalleMateriaCurso.objects.filter(id_detalle_materia_curso=id).first()
+                if detalle:
+                    fecha_inicio = str(datetime.today().day)+"/"+str(datetime.today().month)+"/"+\
+                    str(datetime.today().year)+" "+i['hora_inicio']
+                    fecha_fin = str(datetime.today().day)+"/"+str(datetime.today().month)+"/"+\
+                    str(datetime.today().year)+" "+i['hora_fin']
+                    date_inicio = datetime.strptime(fecha_inicio, '%d/%m/%Y %H:%M')
+                    date_fin = datetime.strptime(fecha_fin, '%d/%m/%Y %H:%M')
+                    if date_fin <= date_inicio:
+                        mensaje = "La hora de inicio no debe ser menor a la de fin para la materia {0}".format(detalle.id_materia.nombre)
+                    else:
+                        resultado = date_fin-date_inicio
+                        result_str = str(resultado).split(':')
+                        result_str_tiempo_detalle = detalle.total_horas.split(':')
+                        if int(result_str[0]) >  int(result_str_tiempo_detalle[0]):
+                            mensaje = "El rango de horas seleccionado supera el tiempo definido por semana para la materia {0}".format(detalle.id_materia.nombre)
+                        else:
+                            if int(result_str[1]) >  int(result_str_tiempo_detalle[1]):
+                                mensaje = "El rango de horas seleccionado supera el tiempo definido por semana para la materia {0}".format(detalle.id_materia.nombre)
+                            
+
+                        print(result_str[0],result_str_tiempo_detalle[0],resultado)          
+        else:
+            print('no hay')
         return JsonResponse({})
         
