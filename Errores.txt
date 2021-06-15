@@ -11,3 +11,15 @@ Matriculación
         (en el horaria hay todos los dias, fines de semana no hay clases y no me permite guardar por dejar el fin de semana libre) y el boton de guardar deberia decir
         "Guardar" no "guardar" cancer leerlo con la minuscula la comienzo.
     Consultar materia y profesor materia da error
+Mantenimiento
+    Personas
+        -No me deja guardar cuando es empleado porqeu me pide que llene los campos
+        de reSSSSSSSSpresentante y de familiares, aunque ya le puse que es empleado
+        pero aun asi me los solicita.
+        -Corregir la imagen por default de la tabla Persona. Porque cuando mando a descargar
+        el reporte de Profesor me manda error porqeu me dice que la ubicacion de la imagen
+        esta feura del proyecto (Revisa si la subiste o no, porque dentro de mi proyecto no la tengo)
+
+No olvidar añadir libreria moment JS
+moment.locale('es');
+        var m = moment(convert[i].fecha, "YYYY-MM-DD HH:mm");
