@@ -110,7 +110,7 @@
             horas_content.innerHTML += "<div class='col-md-6 col-12'>"+
                                         "<div class='form-group'>"+
                                             "<label for='"+$(i).val()+"'>Horas Semanales "+$(i).text()+"</label>"+
-                                            "<input type='number' class='form-control' name='"+$(i).val()+"' required='true' >"+
+                                            "<input type='text' class='form-control'  pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' name='"+$(i).val()+"' required='true' placeholder='HH:mm'>"+
                                         "</div>"+
                                     "</div>";
         })
@@ -124,7 +124,7 @@
             horas_content.innerHTML += "<div class='col-md-6 col-12'>"+
                                         "<div class='form-group'>"+
                                             "<label for='"+$(i).val()+"'>Horas Semanales "+$(i).text()+"</label>"+
-                                            "<input type='number' class='form-control' name='"+$(i).val()+"' required='true'>"+
+                                            "<input type='text' class='form-control'  pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' name='"+$(i).val()+"' required='true' placeholder='HH:mm'>"+
                                         "</div>"+
                                     "</div>";
         })

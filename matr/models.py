@@ -84,7 +84,7 @@ class DetalleMateriaCurso(models.Model):
     id_matr_anio_lectivo_curso = models.ForeignKey(Aniolectivo_curso, on_delete=models.CASCADE, blank=False, null=False,
                                                    related_name="fk_detallemateriacurso_aniolectivocurso",
                                                    db_column='id_matr_aniolectivo_curso')
-    total_horas = models.DecimalField(decimal_places=2, max_digits=4)
+    total_horas = models.CharField(max_length=9)
     estado = models.BooleanField(default=True)
     id_materia = models.ForeignKey(Materia, blank=False, default=24, related_name="fk_detallemateriacurso_materias",
                                    db_column='id_materia', on_delete=models.CASCADE)
