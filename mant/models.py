@@ -43,7 +43,7 @@ class Persona(models.Model):
     estado = models.ForeignKey(GenrGeneral, default=97, on_delete=models.CASCADE,
                                related_name="fk_persona_estado", db_column='estado')
     imagen = models.ImageField(upload_to='static/usuarios/', blank=False, null=True,
-                               default='../../../static/img/texto-menu.pnguser_default_image.svg')
+                               default='static/dist/assets/images/faces/1.jpg')
     id_cfg_estado_civil = models.ForeignKey(GenrGeneral, on_delete=models.CASCADE, blank=True, null=True,
                                             related_name="estado_civil", db_column='id_cfg_estado_civil',
                                             verbose_name=_('Estado civil'))

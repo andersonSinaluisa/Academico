@@ -14,7 +14,7 @@
             <td>
                 <select name="" id="anio_l" class="form-select">
                     {% for i in al %}
-                    <option value={{i.id_anio_lectivo}}>{{i.anio}}</option>
+                    <option value={{i.id_anio_lectivo}}>{{i.anio}}|{{i.ciclo}}</option>
                     {% empty %}
                     <option value="" disabled>No hay años registrados</option>
                     {% endfor %}
