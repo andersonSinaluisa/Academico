@@ -1,3 +1,6 @@
 # Academico
 
 OPEN SOURCE MANAGEMENT ACADEMIC SYSTEM
+
+python3.7
+django 2
